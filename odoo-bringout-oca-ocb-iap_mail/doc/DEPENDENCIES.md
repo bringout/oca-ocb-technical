@@ -2,5 +2,5 @@
 
 This addon depends on:
 
-- [iap](../../../../odoo-bringout-oca-ocb-iap)
-- [mail](../../../../../oca-ocb-core/odoo-bringout-oca-ocb-mail)
+- [iap](https://github.com/bringout/oca-ocb-technical)
+- [mail](https://github.com/bringout/oca-ocb-core)
