@@ -15,202 +15,233 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_kanban
 msgid "<i class=\"fa fa-check\" role=\"img\" aria-label=\"Opened\" title=\"Opened\"/>"
 msgstr "<i class=\"fa fa-check\" role=\"img\" aria-label=\"Opened\" title=\"Otvoreno\"/>"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_kanban
 msgid "<i class=\"fa fa-undo\" role=\"img\" aria-label=\"Closed\" title=\"Closed\"/>"
 msgstr "<i class=\"fa fa-undo\" role=\"img\" aria-label=\"Closed\" title=\"Zatvoreno\"/>"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_mail_activity_type__category
 msgid "Action"
 msgstr "Akcija"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_needaction
 msgid "Action Needed"
 msgstr "Potrebna akcija"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_mail_activity_type__category
 msgid ""
 "Actions may trigger specific behavior like opening calendar view or "
 "automatically mark as done when a document is uploaded"
 msgstr ""
+"Akcije mogu pokrenuti specifično ponašanje kao npr. otvaranje pregleda "
+"kalendara ili automatski označiti kao dovršeno kad je dokument učitan"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__open
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Active"
 msgstr "Aktivan"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_ids
 msgid "Activities"
 msgstr "Aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model,name:note.model_mail_activity
 msgid "Activity"
 msgstr "Aktivnost"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr "Dekoracija iznimke aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_state
 msgid "Activity State"
 msgstr "Status aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model,name:note.model_mail_activity_type
 msgid "Activity Type"
 msgstr "Tip aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Ikona tipa aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.actions.act_window,help:note.action_note_note
 msgid "Add a new personal note"
 msgstr "Dodaj novu privatnu bilješku"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.actions.act_window,help:note.note_tag_action
 msgid "Add a new tag"
 msgstr "Dodaj novu oznaku"
 
+# taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
 #, python-format
 msgid "Add a note"
 msgstr "Dodaj bilješku"
 
+# taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
 #, python-format
 msgid "Add new note"
 msgstr "Dodaj novu bilješku"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Archive"
 msgstr "Arhiviraj"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_attachment_count
 msgid "Attachment Count"
 msgstr "Broj zakački"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "By sticky note Category"
 msgstr "Po kategoriji bilješke"
 
+# taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
 #, python-format
 msgid "Channel"
 msgstr "Kanal"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__color
-#: model:ir.model.fields,field_description:note.field_note_tag__color
 msgid "Color Index"
 msgstr "Indeks boje"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__company_id
 msgid "Company"
 msgstr "Tvrtka"
 
+# taken from hr.po
 #. module: note
 #: model:ir.ui.menu,name:note.menu_note_configuration
 msgid "Configuration"
 msgstr "Konfiguracija"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__create_uid
-#: model:ir.model.fields,field_description:note.field_note_stage__create_uid
-#: model:ir.model.fields,field_description:note.field_note_tag__create_uid
 msgid "Created by"
 msgstr "Kreirao"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__create_date
-#: model:ir.model.fields,field_description:note.field_note_stage__create_date
-#: model:ir.model.fields,field_description:note.field_note_tag__create_date
 msgid "Created on"
 msgstr "Kreirano"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__date_done
 msgid "Date done"
 msgstr "Datum završetka"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_kanban
 msgid "Delete"
 msgstr "Obriši"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__display_name
-#: model:ir.model.fields,field_description:note.field_note_stage__display_name
-#: model:ir.model.fields,field_description:note.field_note_tag__display_name
 msgid "Display Name"
 msgstr "Prikazani naziv"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_kanban
 msgid "Dropdown menu"
 msgstr "Padajući izbornik"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_stage__fold
 msgid "Folded by Default"
 msgstr "Zatvoreno (zadano)"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_kanban
 msgid "Follower"
 msgstr "Pratitelj"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_follower_ids
 msgid "Followers"
 msgstr "Pratioci"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Pratioci (Partneri)"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesome ikona npr. fa-tasks"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Future Activities"
 msgstr "Buduće aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Group By"
 msgstr "Grupiši po"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__has_message
 msgid "Has Message"
@@ -223,252 +254,281 @@ msgstr "Ima poruku"
 msgid "ID"
 msgstr "ID"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_exception_icon
 msgid "Icon"
 msgstr "Ikona"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Ikona za prikaz iznimki."
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Ako je zakačeno, nove poruke će zahtjevati vašu pažnju"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Ako je označeno neke poruke mogu imati grešku u dostavi."
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_is_follower
 msgid "Is Follower"
 msgstr "Je pratilac"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note____last_update
-#: model:ir.model.fields,field_description:note.field_note_stage____last_update
-#: model:ir.model.fields,field_description:note.field_note_tag____last_update
 msgid "Last Modified on"
 msgstr "Zadnje mijenjano"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__write_uid
-#: model:ir.model.fields,field_description:note.field_note_stage__write_uid
-#: model:ir.model.fields,field_description:note.field_note_tag__write_uid
 msgid "Last Updated by"
 msgstr "Zadnji ažurirao"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__write_date
-#: model:ir.model.fields,field_description:note.field_note_stage__write_date
-#: model:ir.model.fields,field_description:note.field_note_tag__write_date
 msgid "Last Updated on"
 msgstr "Zadnje ažurirano"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Late Activities"
 msgstr "Aktivnosti u kašnjenju"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Glavna zakačka"
 
+# taken from hr.po
 #. module: note
 #: model:note.stage,name:note.note_stage_01
 msgid "Meeting Minutes"
 msgstr "Vlasnik faze beleške"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_has_error
 msgid "Message Delivery error"
 msgstr "Greška pri isporuci poruke"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_ids
 msgid "Messages"
 msgstr "Poruke"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Rok za moju aktivnost"
 
+# taken from hr.po
 #. module: note
 #: model:note.stage,name:note.note_stage_00
 msgid "New"
 msgstr "Koristi se za sortiranje faza beleški"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
 msgstr "Događaj sljedećeg kalendara aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Krajnji rok za sljedeću aktivnost"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_summary
 msgid "Next Activity Summary"
 msgstr "Pregled sljedeće aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_type_id
 msgid "Next Activity Type"
 msgstr "Tip sljedeće aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model,name:note.model_note_note
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_form
 msgid "Note"
 msgstr "Zabilješka"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__memo
 msgid "Note Content"
 msgstr "Sadržaj bilješke"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model,name:note.model_note_stage
 msgid "Note Stage"
 msgstr "Faza Bilješke"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__name
 msgid "Note Summary"
 msgstr "Sažetak bilješke"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model,name:note.model_note_tag
 msgid "Note Tag"
 msgstr "Oznaka bilješke"
 
+# taken from hr.po
 #. module: note
 #. odoo-python
-#: code:addons/note/models/res_users.py:0
-#: model:ir.actions.act_window,name:note.action_note_note
-#: model:ir.ui.menu,name:note.menu_note_notes
-#: model:note.stage,name:note.note_stage_02
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
+#: code:addons/note/models/res_users.py
 #, python-format
 msgid "Notes"
 msgstr "Zabilješke"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.actions.act_window,help:note.action_note_note
 msgid ""
 "Notes are private, unless you share them by inviting follower on a note.\n"
 "            (Useful for meeting minutes)."
 msgstr ""
+"Bilješke su privatne, ako ih ne podijelite pozivajući nekoga kao pratitelja "
+"te bilješke (korisno za bilješke sa satanaka)"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Broj akcija"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_has_error_counter
 msgid "Number of errors"
 msgstr "Broj grešaka"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr "Broj poruka koje zahtijevaju aktivnost"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Broj poruka sa greškama pri isporuci"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__user_id
-#: model:ir.model.fields,field_description:note.field_note_stage__user_id
 msgid "Owner"
 msgstr "Vlasnik"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_mail_activity__note_id
 msgid "Related Note"
 msgstr "Povezana bilješka"
 
+# taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
 #, python-format
 msgid "Remember..."
 msgstr "Zapamti..."
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields.selection,name:note.selection__mail_activity_type__category__reminder
-#: model:mail.activity.type,name:note.mail_activity_data_reminder
 msgid "Reminder"
 msgstr "Podsjetnik"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_user_id
 msgid "Responsible User"
 msgstr "Odgovorni korisnik"
 
+# taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
 #, python-format
 msgid "SAVE"
 msgstr "SPREMI"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__sequence
-#: model:ir.model.fields,field_description:note.field_note_stage__sequence
 msgid "Sequence"
 msgstr "Sekvenca"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Show all records which has next action date is before today"
 msgstr "Prikaži sve zapise koji imaju datum sljedeće akcije prije danas"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__stage_id
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Stage"
 msgstr "Faza"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_stage__name
 msgid "Stage Name"
 msgstr "Naziv faze"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_stage_form
 msgid "Stage of Notes"
 msgstr "Faza bilježaka"
 
+# taken from hr.po
 #. module: note
 #: model:ir.actions.act_window,name:note.action_note_stage
-#: model:ir.ui.menu,name:note.menu_notes_stage
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_tree
 msgid "Stages"
 msgstr "Faze"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_stage_tree
 msgid "Stages of Notes"
 msgstr "Faze bilježaka"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__stage_ids
 msgid "Stages of Users"
 msgstr "Faze korisnika"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__activity_state
 msgid ""
@@ -477,49 +537,56 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Status baziran na aktivnostima\n"
+"Zakašnjelo: Rok je već prošao\n"
+"Danas: Datum aktivnosti je danas\n"
+"Planirano: Buduće aktivnosti."
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_tag__name
 msgid "Tag Name"
 msgstr "Ime oznake"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.constraint,message:note.constraint_note_tag_name_uniq
 msgid "Tag name already exists !"
 msgstr "Naziv oznake već postoji!"
 
+# taken from hr.po
 #. module: note
 #: model:ir.actions.act_window,name:note.note_tag_action
-#: model:ir.model.fields,field_description:note.field_note_note__tag_ids
-#: model:ir.ui.menu,name:note.notes_tag_menu
-#: model_terms:ir.ui.view,arch_db:note.note_tag_view_form
-#: model_terms:ir.ui.view,arch_db:note.note_tag_view_tree
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_form
 msgid "Tags"
 msgstr "Oznake"
 
+# taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/models/activity_menu_view.js:0
+#: code:addons/note/static/src/models/activity_menu_view.js
 #, python-format
 msgid "Today"
 msgstr "Postavi datum i vreme"
 
+# taken from hr.po
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Today Activities"
 msgstr "Današnje aktivnosti"
 
+# taken from hr.po
 #. module: note
 #: model:note.stage,name:note.note_stage_03
 msgid "Todo"
 msgstr "Za Uraditi"
 
+# taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Vrsta aktivnosti iznimke na zapisu."
 
+# taken from hr.po
 #. module: note
 #: model:ir.model,name:note.model_res_users
 msgid "User"

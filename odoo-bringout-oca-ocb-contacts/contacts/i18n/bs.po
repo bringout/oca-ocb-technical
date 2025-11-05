@@ -15,74 +15,86 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_action_res_partner_bank_form
-#: model:ir.ui.menu,name:contacts.menu_config_bank_accounts
 msgid "Bank Accounts"
 msgstr "Bankovni računi"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_action_res_bank_form
 msgid "Banks"
-msgstr "Odoo helps you to easily Prati all activities related to a Kupac."
+msgstr "Banke"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.res_partner_menu_config
 msgid "Configuration"
 msgstr "Konfiguracija"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_partner_category_form
 msgid "Contact Tags"
 msgstr "Oznake kontakata"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_partner_title_contact
 msgid "Contact Titles"
 msgstr "Titule kontakta"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.actions.act_window,name:contacts.action_contacts
-#: model:ir.ui.menu,name:contacts.menu_contacts
-#: model:ir.ui.menu,name:contacts.res_partner_menu_contacts
 msgid "Contacts"
 msgstr "Kontakti"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_country_partner
 msgid "Countries"
 msgstr "Zemlje"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_country_group
 msgid "Country Group"
 msgstr "Grupa zemalja"
 
+# taken from hr.po
 #. module: contacts
 #: model_terms:ir.actions.act_window,help:contacts.action_contacts
 msgid "Create a Contact in your address book"
 msgstr "Kreiraj kontakt u svom adresaru"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_country_state_partner
 msgid "Fed. States"
 msgstr "Fed. države"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.res_partner_industry_menu
 msgid "Industries"
 msgstr "Industrije"
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_localisation
 msgid "Localization"
 msgstr "Lokalizacija"
 
+# taken from hr.po
 #. module: contacts
 #: model_terms:ir.actions.act_window,help:contacts.action_contacts
 msgid "Odoo helps you track all activities related to your contacts."
-msgstr "Odoo vam pomaže u praćenju svih aktivnosti povezanih s vašim kontaktima."
+msgstr ""
+"Odoo vam pomaže u praćenju svih aktivnosti povezanih s vašim kontaktima."
 
+# taken from hr.po
 #. module: contacts
 #: model:ir.model,name:contacts.model_res_users
 msgid "User"
