@@ -2579,13 +2579,13 @@ msgstr "Nedjelja"
 #: code:addons/calendar/static/src/views/attendee_calendar/attendee_calendar_controller.xml
 #, python-format
 msgid "Synchronize with:"
-msgstr "Sinkroniziraj sa:"
+msgstr "Sinhroniziraj sa:"
 
 # taken from hr.po
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.calendar_provider_config_view_form
 msgid "Synchronize your calendar with Google Calendar"
-msgstr "Sinkronizirajte kalendar s Google kalendarom"
+msgstr "Sinhronizirajte kalendar s Google kalendarom"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.calendar_provider_config_view_form
