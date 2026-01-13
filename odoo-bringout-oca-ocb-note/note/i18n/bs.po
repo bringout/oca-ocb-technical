@@ -37,7 +37,7 @@ msgstr "Akcija"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_needaction
 msgid "Action Needed"
-msgstr "Potrebna akcija"
+msgstr "Potrebna radnja"
 
 # taken from hr.po
 #. module: note
@@ -71,7 +71,7 @@ msgstr "Aktivnost"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Dekoracija iznimke aktivnosti"
+msgstr "Dekoracija izuzetka aktivnosti"
 
 # taken from hr.po
 #. module: note
@@ -129,7 +129,7 @@ msgstr "Arhiviraj"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_attachment_count
 msgid "Attachment Count"
-msgstr "Broj zakački"
+msgstr "Broj priloga"
 
 # taken from hr.po
 #. module: note
@@ -155,7 +155,7 @@ msgstr "Indeks boje"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__company_id
 msgid "Company"
-msgstr "Tvrtka"
+msgstr "Kompanija"
 
 # taken from hr.po
 #. module: note
@@ -215,13 +215,13 @@ msgstr "Pratitelj"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_follower_ids
 msgid "Followers"
-msgstr "Pratioci"
+msgstr "Pratitelji"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Pratioci (Partneri)"
+msgstr "Pratitelji (partneri)"
 
 # taken from hr.po
 #. module: note
@@ -239,7 +239,7 @@ msgstr "Buduće aktivnosti"
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Group By"
-msgstr "Grupiši po"
+msgstr "Grupiši po..."
 
 # taken from hr.po
 #. module: note
@@ -282,25 +282,25 @@ msgstr "Ako je označeno neke poruke mogu imati grešku u dostavi."
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_is_follower
 msgid "Is Follower"
-msgstr "Je pratilac"
+msgstr "Pratilac"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note____last_update
 msgid "Last Modified on"
-msgstr "Zadnje mijenjano"
+msgstr "Zadnja izmjena na"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__write_uid
 msgid "Last Updated by"
-msgstr "Zadnji ažurirao"
+msgstr "Zadnje ažuriranje izvršio"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__write_date
 msgid "Last Updated on"
-msgstr "Zadnje ažurirano"
+msgstr "Zadnje ažuriranje na"
 
 # taken from hr.po
 #. module: note
@@ -330,7 +330,7 @@ msgstr "Greška pri isporuci poruke"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_ids
 msgid "Messages"
-msgstr "Poruke"
+msgstr "Nepročitane poruke"
 
 # taken from hr.po
 #. module: note
@@ -342,7 +342,7 @@ msgstr "Rok za moju aktivnost"
 #. module: note
 #: model:note.stage,name:note.note_stage_00
 msgid "New"
-msgstr "Koristi se za sortiranje faza beleški"
+msgstr "Novi"
 
 # taken from hr.po
 #. module: note
