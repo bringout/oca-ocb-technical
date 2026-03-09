@@ -14,20 +14,19 @@ to support In-App purchases inside Odoo. """,
         'base_setup'
     ],
     'data': [
+        'data/services.xml',
         'security/ir.model.access.csv',
         'security/ir_rule.xml',
         'views/iap_views.xml',
         'views/res_config_settings.xml',
     ],
-    'auto_install': False,
+    'auto_install': True,
     'assets': {
         'web.assets_backend': [
             'iap/static/src/**/*.js',
             'iap/static/src/**/*.xml',
         ],
-        'web.tests_assets': [
-            'iap/static/tests/**/*',
-        ],
     },
+    'author': 'Odoo S.A.',
     'license': 'LGPL-3',
 }

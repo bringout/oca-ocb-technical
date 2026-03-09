@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import { registry } from "@web/core/registry";
 import { calendarView } from "@web/views/calendar/calendar_view";
 import { AttendeeCalendarController } from "@calendar/views/attendee_calendar/attendee_calendar_controller";
@@ -11,7 +9,6 @@ export const attendeeCalendarView = {
     Controller: AttendeeCalendarController,
     Model: AttendeeCalendarModel,
     Renderer: AttendeeCalendarRenderer,
-    buttonTemplate: "calendar.AttendeeCalendarController.controlButtons",
 };
 
 registry.category("views").add("attendee_calendar", attendeeCalendarView);
