@@ -53,7 +53,7 @@ msgstr ""
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__open
 msgid "Active"
-msgstr "Aktivan"
+msgstr "Aktivno"
 
 # taken from hr.po
 #. module: note
@@ -71,7 +71,7 @@ msgstr "Aktivnost"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Dekoracija iznimke aktivnosti"
+msgstr "Dekoracija izuzetka aktivnosti"
 
 # taken from hr.po
 #. module: note
@@ -106,7 +106,7 @@ msgstr "Dodaj novu oznaku"
 # taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
 #, python-format
 msgid "Add a note"
 msgstr "Dodaj bilješku"
@@ -114,7 +114,7 @@ msgstr "Dodaj bilješku"
 # taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
 #, python-format
 msgid "Add new note"
 msgstr "Dodaj novu bilješku"
@@ -129,7 +129,7 @@ msgstr "Arhiviraj"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_attachment_count
 msgid "Attachment Count"
-msgstr "Broj zakački"
+msgstr "Broj priloga"
 
 # taken from hr.po
 #. module: note
@@ -140,7 +140,7 @@ msgstr "Po kategoriji bilješke"
 # taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
 #, python-format
 msgid "Channel"
 msgstr "Kanal"
@@ -155,7 +155,7 @@ msgstr "Indeks boje"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__company_id
 msgid "Company"
-msgstr "Tvrtka"
+msgstr "Kompanija"
 
 # taken from hr.po
 #. module: note
@@ -191,7 +191,7 @@ msgstr "Obriši"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__display_name
 msgid "Display Name"
-msgstr "Prikazani naziv"
+msgstr "Naziv za prikaz"
 
 # taken from hr.po
 #. module: note
@@ -221,7 +221,7 @@ msgstr "Pratioci"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Pratioci (Partneri)"
+msgstr "Pratioci (partneri)"
 
 # taken from hr.po
 #. module: note
@@ -249,8 +249,6 @@ msgstr "Ima poruku"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__id
-#: model:ir.model.fields,field_description:note.field_note_stage__id
-#: model:ir.model.fields,field_description:note.field_note_tag__id
 msgid "ID"
 msgstr "ID"
 
@@ -264,19 +262,19 @@ msgstr "Ikona"
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Ikona za prikaz iznimki."
+msgstr "Ikona za označavanje izuzetne aktivnosti."
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Ako je zakačeno, nove poruke će zahtjevati vašu pažnju"
+msgstr "Ako je označeno, nove poruke zahtijevaju vašu pažnju."
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Ako je označeno neke poruke mogu imati grešku u dostavi."
+msgstr "Ako je označeno, neke poruke imaju grešku pri dostavi."
 
 # taken from hr.po
 #. module: note
@@ -288,7 +286,7 @@ msgstr "Je pratilac"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note____last_update
 msgid "Last Modified on"
-msgstr "Zadnje mijenjano"
+msgstr "Zadnja izmjena"
 
 # taken from hr.po
 #. module: note
@@ -312,7 +310,7 @@ msgstr "Aktivnosti u kašnjenju"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_main_attachment_id
 msgid "Main Attachment"
-msgstr "Glavna zakačka"
+msgstr "Glavni prilog"
 
 # taken from hr.po
 #. module: note
@@ -324,7 +322,7 @@ msgstr "Vlasnik faze beleške"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_has_error
 msgid "Message Delivery error"
-msgstr "Greška pri isporuci poruke"
+msgstr "Greška dostave poruke"
 
 # taken from hr.po
 #. module: note
@@ -336,7 +334,7 @@ msgstr "Poruke"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Rok za moju aktivnost"
+msgstr "Rok moje aktivnosti"
 
 # taken from hr.po
 #. module: note
@@ -354,13 +352,13 @@ msgstr "Događaj sljedećeg kalendara aktivnosti"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Krajnji rok za sljedeću aktivnost"
+msgstr "Rok sljedeće aktivnosti"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_summary
 msgid "Next Activity Summary"
-msgstr "Pregled sljedeće aktivnosti"
+msgstr "Sažetak sljedeće aktivnosti"
 
 # taken from hr.po
 #. module: note
@@ -401,7 +399,7 @@ msgstr "Oznaka bilješke"
 # taken from hr.po
 #. module: note
 #. odoo-python
-#: code:addons/note/models/res_users.py
+#: code:addons/note/models/res_users.py:0
 #, python-format
 msgid "Notes"
 msgstr "Zabilješke"
@@ -432,13 +430,13 @@ msgstr "Broj grešaka"
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Broj poruka koje zahtijevaju aktivnost"
+msgstr "Broj poruka koje zahtijevaju akciju"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Broj poruka sa greškama pri isporuci"
+msgstr "Broj poruka sa greškom pri dostavi"
 
 # taken from hr.po
 #. module: note
@@ -455,7 +453,7 @@ msgstr "Povezana bilješka"
 # taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
 #, python-format
 msgid "Remember..."
 msgstr "Zapamti..."
@@ -475,7 +473,7 @@ msgstr "Odgovorni korisnik"
 # taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml
+#: code:addons/note/static/src/components/activity_menu_view/activity_menu_view.xml:0
 #, python-format
 msgid "SAVE"
 msgstr "SPREMI"
@@ -484,7 +482,7 @@ msgstr "SPREMI"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__sequence
 msgid "Sequence"
-msgstr "Sekvenca"
+msgstr "Redoslijed"
 
 # taken from hr.po
 #. module: note
@@ -537,8 +535,8 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
-"Status baziran na aktivnostima\n"
-"Zakašnjelo: Rok je već prošao\n"
+"Status na osnovu aktivnosti\n"
+"Isteklo: Rok je već prošao\n"
 "Danas: Datum aktivnosti je danas\n"
 "Planirano: Buduće aktivnosti."
 
@@ -563,7 +561,7 @@ msgstr "Oznake"
 # taken from hr.po
 #. module: note
 #. odoo-javascript
-#: code:addons/note/static/src/models/activity_menu_view.js
+#: code:addons/note/static/src/models/activity_menu_view.js:0
 #, python-format
 msgid "Today"
 msgstr "Postavi datum i vreme"
@@ -584,7 +582,7 @@ msgstr "Za Uraditi"
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "Vrsta aktivnosti iznimke na zapisu."
+msgstr "Tip izuzetne aktivnosti na zapisu."
 
 # taken from hr.po
 #. module: note

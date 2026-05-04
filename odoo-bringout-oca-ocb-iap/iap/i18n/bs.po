@@ -30,7 +30,7 @@ msgstr "Token računa"
 # taken from hr.po
 #. module: iap
 #. odoo-javascript
-#: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml
+#: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml:0
 #, python-format
 msgid "Buy credits"
 msgstr "Kupi kredite"
@@ -38,7 +38,7 @@ msgstr "Kupi kredite"
 # taken from hr.po
 #. module: iap
 #. odoo-javascript
-#: code:addons/iap/static/src/xml/iap_templates.xml
+#: code:addons/iap/static/src/xml/iap_templates.xml:0
 #, python-format
 msgid "Cancel"
 msgstr "Otkaži"
@@ -71,7 +71,7 @@ msgstr "Kreirano"
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__display_name
 msgid "Display Name"
-msgstr "Prikazani naziv"
+msgstr "Naziv za prikaz"
 
 # taken from hr.po
 #. module: iap
@@ -107,7 +107,7 @@ msgstr "ID"
 # taken from hr.po
 #. module: iap
 #. odoo-javascript
-#: code:addons/iap/static/src/xml/iap_templates.xml
+#: code:addons/iap/static/src/xml/iap_templates.xml:0
 #, python-format
 msgid "Insufficient credit to perform this service."
 msgstr "Nedovoljno kredita za izvršavanje ove usluge"
@@ -116,7 +116,7 @@ msgstr "Nedovoljno kredita za izvršavanje ove usluge"
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account____last_update
 msgid "Last Modified on"
-msgstr "Zadnje mijenjano"
+msgstr "Zadnja izmjena"
 
 # taken from hr.po
 #. module: iap
@@ -133,7 +133,7 @@ msgstr "Zadnje ažurirano"
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
 msgid "Odoo IAP"
-msgstr "Odoo IAP"
+msgstr ""
 
 #. module: iap
 #: model:ir.actions.server,name:iap.open_iap_account
@@ -148,14 +148,14 @@ msgstr "Naziv usluge"
 
 #. module: iap
 #. odoo-javascript
-#: code:addons/iap/static/src/js/insufficient_credit_error_handler.js
+#: code:addons/iap/static/src/js/insufficient_credit_error_handler.js:0
 #, python-format
 msgid "Start a Trial at Odoo"
 msgstr "Pokrenite probni period na Odoo"
 
 #. module: iap
 #. odoo-python
-#: code:addons/iap/tools/iap_tools.py
+#: code:addons/iap/tools/iap_tools.py:0
 #, python-format
 msgid ""
 "The request to the service timed out. Please contact the author of the app. "
@@ -166,7 +166,7 @@ msgstr ""
 
 #. module: iap
 #. odoo-python
-#: code:addons/iap/tools/iap_tools.py
+#: code:addons/iap/tools/iap_tools.py:0
 #, python-format
 msgid ""
 "The url that this service requested returned an error. Please contact the "
@@ -178,7 +178,7 @@ msgstr ""
 # taken from hr.po
 #. module: iap
 #. odoo-javascript
-#: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml
+#: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml:0
 #, python-format
 msgid "View My Services"
 msgstr "Pogledaj moje usluge"
@@ -187,3 +187,154 @@ msgstr "Pogledaj moje usluge"
 #: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
 msgid "View your IAP Services and recharge your credits"
 msgstr "Privremeno nedostupno"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                                    Buy Credit"
+msgstr ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                                    Kupi kredit"
+
+#. module: iap
+#: model:ir.model.fields,help:iap.field_iap_account__account_token
+msgid ""
+"Account token is your authentication key for this service. Do not share it."
+msgstr ""
+"Token računa je vaš autentifikacijski ključ za ovu uslugu. Nemojte ga "
+"dijeliti."
+
+#. module: iap
+#: code:addons/iap/tools/iap_tools.py:0
+msgid ""
+"An error occurred while reaching %s. Please contact Odoo support if this "
+"error persists."
+msgstr ""
+"Došlo je do greške pri kontaktiranju %s. Kontaktirajte Odoo podršku ako se "
+"ova greška ponavlja."
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__balance
+msgid "Balance"
+msgstr "Saldo"
+
+#. module: iap
+#: model:ir.model.fields.selection,name:iap.selection__iap_account__state__banned
+msgid "Banned"
+msgstr "Zabranjeno"
+
+#. module: iap
+#: model:iap.service,unit_name:iap.iap_service_reveal
+msgid "Credits"
+msgstr "Krediti"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__description
+msgid "Description"
+msgstr "Opis"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__warning_user_ids
+msgid "Email Alert Recipients"
+msgstr "Primaoci email upozorenja"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__warning_threshold
+msgid "Email Alert Threshold"
+msgstr "Prag za email upozorenje"
+
+#. module: iap
+#: model:iap.service,description:iap.iap_service_reveal
+msgid ""
+"Get quality leads and opportunities: convert your website visitors into "
+"leads, generate leads based on a set of criteria and enrich the company data"
+" of your opportunities."
+msgstr ""
+"Dobijte kvalitetne tragove i prilike: pretvorite posjetitelje vaše web "
+"stranice u tragove, generišite tragove na osnovu skupa kriterija i obogatite"
+" podatke o kompaniji vaših prilika."
+
+#. module: iap
+#: model:ir.model,name:iap.model_iap_service
+msgid "IAP Service"
+msgstr "IAP usluga"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service__integer_balance
+msgid "Integer Balance"
+msgstr "Cjelobrojno stanje"
+
+#. module: iap
+#: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml:0
+msgid "Manage Service & Buy Credits"
+msgstr "Upravljaj uslugom i kupi kredite"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__name
+msgid "Name"
+msgstr "Naziv"
+
+#. module: iap
+#: code:addons/iap/models/iap_account.py:0
+msgid "No service exists with the provided technical name"
+msgstr "Ne postoji usluga sa navedenim tehničkim nazivom"
+
+#. module: iap
+#: code:addons/iap/models/iap_account.py:0
+msgid ""
+"One of the email alert recipients doesn't have an email address set. Users: "
+"%s"
+msgstr ""
+"Jedan od primalaca email upozorenja nema postavljenu email adresu. "
+"Korisnici: %s"
+
+#. module: iap
+#: model:ir.model.constraint,message:iap.constraint_iap_service_unique_technical_name
+msgid "Only one service can exist with a specific technical_name"
+msgstr "Može postojati samo jedna usluga sa određenim technical_name"
+
+#. module: iap
+#: code:addons/iap/models/iap_account.py:0
+msgid "Please set a positive email alert threshold."
+msgstr "Molimo postavite pozitivan prag za email upozorenje."
+
+#. module: iap
+#: model:ir.model.fields.selection,name:iap.selection__iap_account__state__registered
+msgid "Registered"
+msgstr "Registrovan"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_id
+msgid "Service"
+msgstr "Usluga"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_locked
+msgid "Service Locked"
+msgstr "Usluga zaključana"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__state
+msgid "State"
+msgstr "Stanje"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_name
+msgid "Technical Name"
+msgstr "Tehnički naziv"
+
+#. module: iap
+#: code:addons/iap/models/iap_account.py:0
+msgid "The IAP token provided is invalid or empty."
+msgstr "Dostavljeni IAP token je neispravan ili prazan."
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service__unit_name
+msgid "Unit Name"
+msgstr "Naziv jedinice"
+
+#. module: iap
+#: model:ir.model.fields.selection,name:iap.selection__iap_account__state__unregistered
+msgid "Unregistered"
+msgstr "Neregistrovano"
