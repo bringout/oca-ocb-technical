@@ -12,14 +12,13 @@
 # Kristoffer Grundström <lovaren@gmail.com>, 2022
 # Kim Asplund <kim.asplund@gmail.com>, 2022
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
-# Hanna Kharraziha <hakha@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.5alpha1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 18:36+0000\n"
-"PO-Revision-Date: 2026-03-26 08:31+0000\n"
-"Last-Translator: Hanna Kharraziha <hakha@odoo.com>\n"
+"POT-Creation-Date: 2026-02-20 09:01+0000\n"
+"PO-Revision-Date: 2025-11-06 10:21+0000\n"
+"Last-Translator: Jakob Krabbe <jakob.krabbe@vertel.se>\n"
 "Language-Team: Swedish <https://translate.odoo.com/projects/odoo-19/barcodes/"
 "sv/>\n"
 "Language: sv\n"
@@ -27,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #. module: barcodes
 #. odoo-python
@@ -109,11 +108,6 @@ msgid "Barcode"
 msgstr "Streckkod"
 
 #. module: barcodes
-#: model:ir.model,name:barcodes.model_barcodes_barcode_events_mixin
-msgid "Barcode Event Mixin"
-msgstr "Streckkodshändelse Mixin"
-
-#. module: barcodes
 #: model:ir.model,name:barcodes.model_barcode_nomenclature
 #: model:ir.model.fields,field_description:barcodes.field_barcode_nomenclature__name
 #: model:ir.model.fields,field_description:barcodes.field_barcode_rule__barcode_nomenclature_id
@@ -139,11 +133,6 @@ msgid "Barcode Rule"
 msgstr "Streckkodsregel"
 
 #. module: barcodes
-#: model:ir.model.fields,field_description:barcodes.field_barcodes_barcode_events_mixin___barcode_scanned
-msgid "Barcode Scanned"
-msgstr "Streckkoden skannad"
-
-#. module: barcodes
 #. odoo-javascript
 #: code:addons/barcodes/static/src/barcode_handlers.js:0
 msgid "Barcode: %(barcode)s"
@@ -151,8 +140,8 @@ msgstr "Streckkod: %(barcode)s"
 
 #. module: barcodes
 #: model:ir.model,name:barcodes.model_res_company
-msgid "Companies"
-msgstr "Företag"
+msgid "Company"
+msgstr ""
 
 #. module: barcodes
 #: model:ir.model.fields,field_description:barcodes.field_barcode_nomenclature__create_uid
@@ -169,7 +158,6 @@ msgstr "Skapad den"
 #. module: barcodes
 #: model:ir.model.fields,field_description:barcodes.field_barcode_nomenclature__display_name
 #: model:ir.model.fields,field_description:barcodes.field_barcode_rule__display_name
-#: model:ir.model.fields,field_description:barcodes.field_barcodes_barcode_events_mixin__display_name
 #: model:ir.model.fields,field_description:barcodes.field_ir_http__display_name
 #: model:ir.model.fields,field_description:barcodes.field_res_company__display_name
 msgid "Display Name"
@@ -209,21 +197,10 @@ msgstr "HTTP-routing"
 #. module: barcodes
 #: model:ir.model.fields,field_description:barcodes.field_barcode_nomenclature__id
 #: model:ir.model.fields,field_description:barcodes.field_barcode_rule__id
-#: model:ir.model.fields,field_description:barcodes.field_barcodes_barcode_events_mixin__id
 #: model:ir.model.fields,field_description:barcodes.field_ir_http__id
 #: model:ir.model.fields,field_description:barcodes.field_res_company__id
 msgid "ID"
 msgstr "ID"
-
-#. module: barcodes
-#. odoo-python
-#: code:addons/barcodes/models/barcode_events_mixin.py:0
-msgid ""
-"In order to use barcodes.barcode_events_mixin, method on_barcode_scanned "
-"must be implemented"
-msgstr ""
-"För att kunna använda barcodes.barcode_events_mixin måste metoden "
-"on_barcode_scanned implementeras"
 
 #. module: barcodes
 #: model:ir.model.fields,field_description:barcodes.field_barcode_nomenclature__write_uid
@@ -283,7 +260,7 @@ msgstr "Vänligen skanna igen!"
 #. module: barcodes
 #: model:ir.model.fields,field_description:barcodes.field_barcode_rule__name
 msgid "Rule Name"
-msgstr "Regelnamn"
+msgstr "Regelns namn"
 
 #. module: barcodes
 #: model:ir.model.fields,field_description:barcodes.field_barcode_nomenclature__rule_ids
@@ -415,11 +392,6 @@ msgid "Used to order rules such that rules with a smaller sequence match first"
 msgstr ""
 "Används för att sortera regler så att regler med en mindre sekvens matchar "
 "först"
-
-#. module: barcodes
-#: model:ir.model.fields,help:barcodes.field_barcodes_barcode_events_mixin___barcode_scanned
-msgid "Value of the last barcode scanned."
-msgstr "Värde på senast skannade streckkod."
 
 #. module: barcodes
 #. odoo-python

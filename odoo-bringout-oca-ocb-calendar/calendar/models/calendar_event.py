@@ -3,12 +3,14 @@
 import itertools
 import logging
 import math
+import re
 import uuid
-from datetime import datetime, timedelta
-from itertools import repeat
+from babel.dates import parse_time
+from datetime import datetime, timedelta, UTC
+from zoneinfo import ZoneInfo
+
 from markupsafe import Markup
 
-import pytz
 from werkzeug.urls import url_parse
 
 from odoo import api, fields, models
@@ -24,9 +26,10 @@ from odoo.addons.calendar.models.calendar_recurrence import (
     BYDAY_SELECTION
 )
 from odoo.addons.calendar.models.utils import interval_from_events
+from odoo.addons.mail.tools.discuss import Store
 from odoo.tools.intervals import intervals_overlap
 from odoo.tools.translate import _
-from odoo.tools.misc import get_lang
+from odoo.tools.misc import get_lang, babel_locale_parse
 from odoo.tools import html2plaintext, html_sanitize, is_html_empty, single_email_re
 from odoo.exceptions import UserError, ValidationError
 
@@ -51,6 +54,29 @@ RRULE_TYPE_SELECTION_UI = [
     ('custom', 'Custom')
 ]
 
+# regex to match common ways to represent time
+# (9h, 9H, 9:00, 09:00, 9 am, 9am, 9a.m. 21h, 21:30, 9-10, 9-11h...)
+HOUR = r'(?:[01]?\d|2[0-3])'  # 0-23
+MINUTES = r'(?:[0-5]\d)'  # :00-:59
+SUFFIX = r'(?:h|hr|am|pm|a\.m\.?|p\.m\.?)'
+RANGE_DELIM = r'(?:-|–|to)'
+HOUR_WITH_MINUTES = rf'{HOUR}:{MINUTES}\s*{SUFFIX}?'
+HOUR_WITH_SUFFIX = rf'{HOUR}\s*{SUFFIX}'
+LOOSE_TIME = rf'(?:{HOUR_WITH_MINUTES}|{HOUR_WITH_SUFFIX}|{HOUR})'
+# Hour range uses lookahead, to make sure that a delimiter and a time follow.
+# Needed to disallow single hours 'meeting 5', but match ranges like '5-7pm'
+HOUR_RANGE = rf'{HOUR}(?=\s*{RANGE_DELIM}\s*{LOOSE_TIME})'
+TIME_REGEX = re.compile(
+    rf'''
+    (?:^|\s) # start of string or space
+    ({HOUR_WITH_MINUTES}|{HOUR_WITH_SUFFIX}|{HOUR_RANGE})  # Valid start times, with an optional range lookahead
+    (?:\s*{RANGE_DELIM}\s*({LOOSE_TIME}))? # Optional end time
+    (?:$|\s) # end of string or space
+    ''',
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
 def get_weekday_occurence(date):
     """
     :returns: ocurrence
@@ -71,7 +97,8 @@ class CalendarEvent(models.Model):
     _name = 'calendar.event'
     _description = "Calendar Event"
     _order = "start desc"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _mail_post_access = 'read'
     _systray_view = 'calendar'
 
     DISCUSS_ROUTE = 'calendar/join_videocall'
@@ -127,6 +154,14 @@ class CalendarEvent(models.Model):
         start = now + (datetime.min - now) % timedelta(minutes=30)
         return start + timedelta(hours=duration_hours)
 
+    @api.model
+    def _get_model_selection(self):
+        return [
+            (model.model, model.name)
+            for model in self.env['ir.model'].sudo().search(
+                [('is_mail_thread', '=', True), ('abstract', '=', False), ('transient', '=', False)])
+        ]
+
     # description
     name = fields.Char('Meeting Subject', required=True)
     description = fields.Html('Description',
@@ -148,6 +183,7 @@ class CalendarEvent(models.Model):
          ('private', 'Private'),
          ('confidential', 'Only internal users')], 'Privacy',
         help="People to whom this event will be visible.")
+    privacy_placeholder = fields.Char(compute='_compute_privacy_placeholder')
     effective_privacy = fields.Selection(
         [('public', 'Public'), ('private', 'Private'), ('confidential', 'Only internal users')],
         'Effective Privacy', help="Whether the event is private, considering the user privacy",
@@ -181,7 +217,7 @@ class CalendarEvent(models.Model):
         compute='_compute_stop', readonly=False, store=True,
         help="Stop date of an event, without time for full days events")
     display_time = fields.Char('Event Time', compute='_compute_display_time')
-    allday = fields.Boolean('All Day', default=False)
+    allday = fields.Boolean('All Day Duration', default=False)
     start_date = fields.Date(
         'Start Date', store=True, tracking=True,
         compute='_compute_dates', inverse='_inverse_dates')
@@ -191,12 +227,14 @@ class CalendarEvent(models.Model):
     duration = fields.Float('Duration', compute='_compute_duration', store=True, readonly=False)
     # linked document
     res_id = fields.Many2oneReference('Document ID', model_field='res_model')
-    res_model_id = fields.Many2one('ir.model', 'Document Model', ondelete='cascade')
+    res_model_id = fields.Many2one('ir.model', 'Document Model', ondelete='cascade', index=True)
     res_model = fields.Char(
         'Document Model Name', related='res_model_id.model', readonly=True, store=True)
     res_model_name = fields.Char(related='res_model_id.name')
+    res_record = fields.Reference(string="Linked to", selection='_get_model_selection',
+         compute='_compute_res_record', inverse='_inverse_res_record')
     # messaging
-    activity_ids = fields.One2many('mail.activity', 'calendar_event_id', string='Activities')
+    meeting_activity_ids = fields.One2many('mail.activity', 'calendar_event_id', string='Meeting Activities')
     # attendees
     attendee_ids = fields.One2many(
         'calendar.attendee', 'event_id', 'Participant')
@@ -212,6 +250,7 @@ class CalendarEvent(models.Model):
     alarm_ids = fields.Many2many(
         'calendar.alarm', 'calendar_alarm_calendar_event_rel',
         string='Reminders', ondelete="restrict",
+        default=lambda self: self.env.ref('calendar.alarm_notif_1', raise_if_not_found=False),
         help="Notifications sent to all attendees to remind of the meeting.")
     # RECURRENCE FIELD
     recurrency = fields.Boolean('Recurrent')
@@ -268,6 +307,11 @@ class CalendarEvent(models.Model):
     tentative_count = fields.Integer(compute='_compute_attendees_count')
     awaiting_count = fields.Integer(compute="_compute_attendees_count")
     user_can_edit = fields.Boolean(compute='_compute_user_can_edit')
+
+    @api.onchange("allday")
+    def _onchange_allday(self):
+        for event in self:
+            event.show_as = 'free' if event.allday else 'busy'
 
     @api.depends("attendee_ids")
     def _compute_should_show_status(self):
@@ -333,6 +377,12 @@ class CalendarEvent(models.Model):
         for event in self:
             event.effective_privacy = event.privacy or event.sudo().user_id.calendar_default_privacy
 
+    @api.depends('effective_privacy')
+    def _compute_privacy_placeholder(self):
+        privacy_selection_dict = dict(self._fields['effective_privacy']._description_selection(self.env))
+        for event in self:
+            event.privacy_placeholder = privacy_selection_dict.get(event.effective_privacy, _('User default'))
+
     def _compute_is_highlighted(self):
         if self.env.context.get('active_model') == 'res.partner':
             partner_id = self.env.context.get('active_id')
@@ -382,6 +432,23 @@ class CalendarEvent(models.Model):
     def _compute_duration(self):
         for event in self:
             event.duration = self._get_duration(event.start, event.stop)
+
+    @api.depends('res_model', 'res_id')
+    def _compute_res_record(self):
+        for event in self:
+            event.res_record = (
+                f"{event.res_model},{event.res_id}"
+                if event.res_model and event.res_id else False
+            )
+
+    def _inverse_res_record(self):
+        for event in self:
+            if not event.res_record:
+                event.res_model_id = False
+                event.res_id = False
+                continue
+            event.res_model_id = self.env['ir.model']._get_id(event.res_record._name)
+            event.res_id = event.res_record.id
 
     @api.depends('start', 'duration')
     def _compute_stop(self):
@@ -576,6 +643,58 @@ class CalendarEvent(models.Model):
         access_token = uuid.uuid4().hex
         return f"{self.get_base_url()}/{self.DISCUSS_ROUTE}/{access_token}"
 
+    @api.onchange('name')
+    def _onchange_name_extract_time(self):
+        for event in self:
+            if not event.env.context.get("is_quick_create_form") or not event.name or not event.allday:
+                continue
+
+            parsed_time = event._parse_time_from_title()
+            if not parsed_time:
+                continue
+
+            event.update({
+                'allday': False,
+                'start': parsed_time[0],
+                'stop': parsed_time[1],
+            })
+
+    def _parse_time_from_title(self):
+        """Extract datetime information from an event title.
+        Returns a tuple of (start_datetime_utc, end_datetime_utc) or None if no time is found."""
+        match = TIME_REGEX.search(self.name)
+        if not match:
+            return None
+
+        start_raw, end_raw = match.groups()
+
+        locale = babel_locale_parse(get_lang(self.env).code)
+        start_time = parse_time(start_raw, locale=locale)
+        end_time = parse_time(end_raw, locale=locale) if end_raw else None
+
+        # The user enters the meeting time in their own timezone, but we store it as UTC
+        tz_name = self.env.context.get('tz') or self.env.user.tz or 'UTC'
+        tz = ZoneInfo(tz_name)
+
+        # Combine event date and parsed time, using the user's timezone
+        start_local_dt = datetime.combine(self.start.date(), start_time, tzinfo=tz)
+        if end_time:
+            end_local_dt = datetime.combine(self.start.date(), end_time, tzinfo=tz)
+        else:
+            end_local_dt = start_local_dt + timedelta(hours=1)
+
+        # 9 to 5 should assume 9am to 5pm
+        if start_local_dt > end_local_dt and start_local_dt.hour <= 12:
+            end_local_dt += timedelta(hours=12)
+
+        # Handle overnight events edge case (e.g. 23:00 - 01:00)
+        if end_local_dt <= start_local_dt:
+            end_local_dt += timedelta(days=1)
+
+        start_utc = start_local_dt.astimezone(UTC).replace(tzinfo=None)
+        end_utc = end_local_dt.astimezone(UTC).replace(tzinfo=None)
+        return start_utc, end_utc
+
     # ------------------------------------------------------------
     # CRUD
     # ------------------------------------------------------------
@@ -585,14 +704,14 @@ class CalendarEvent(models.Model):
         # Prevent sending update notification when _inverse_dates is called
         self = self.with_context(is_calendar_event_new=True)
         defaults = self.browse().default_get([
-            'activity_ids', 'allday', 'description', 'name', 'partner_ids',
+            'meeting_activity_ids', 'allday', 'description', 'name', 'partner_ids',
             'res_model_id', 'res_id', 'start', 'user_id',
         ])
 
         vals_list = [  # Else bug with quick_create when we are filter on an other user
             {
                 **vals,
-                'activity_ids': vals.get('activity_ids', defaults.get('activity_ids')),
+                'meeting_activity_ids': vals.get('meeting_activity_ids', defaults.get('meeting_activity_ids')),
                 'allday': vals.get('allday', defaults.get('allday')),
                 'description': vals.get('description', defaults.get('description')),
                 'name': vals.get('name', defaults.get('name')),
@@ -623,7 +742,7 @@ class CalendarEvent(models.Model):
         if meeting_activity_types:
             for values in vals_list:
                 # created from calendar: try to create an activity on the related record
-                if values['activity_ids'] and not existing_event:
+                if values['meeting_activity_ids'] and not existing_event:
                     continue
                 res_model = all_models.filtered(lambda m: m.id == values['res_model_id'])
                 res_id = values['res_id']
@@ -653,7 +772,7 @@ class CalendarEvent(models.Model):
                     activity_vals['date_deadline'] = self._get_activity_deadline_from_start(fields.Datetime.from_string(values['start']), values['allday'])
                 if values['user_id']:
                     activity_vals['user_id'] = values['user_id']
-                values['activity_ids'] = [(0, 0, activity_vals)]
+                values['meeting_activity_ids'] = [(0, 0, activity_vals)]
 
         self._set_videocall_location(vals_list)
 
@@ -718,7 +837,7 @@ class CalendarEvent(models.Model):
         # complete
         to_sync_activities = self.browse()
         for event, event_values in zip(events, vals_list):
-            if any(command[0] != 0 for command in event_values.get('activity_ids') or []):
+            if any(command[0] != 0 for command in event_values.get('meeting_activity_ids') or []):
                 to_sync_activities += event
         to_sync_activities._sync_activities(fields={f for vals in vals_list for f in vals})
 
@@ -761,7 +880,7 @@ class CalendarEvent(models.Model):
             replacement = field.convert_to_cache(
                 _('Busy') if field.name == 'name' else False,
                 others_private_events)
-            self.env.cache.update(others_private_events, field, repeat(replacement))
+            field._update_cache(others_private_events, replacement)
 
         return events
 
@@ -1011,12 +1130,14 @@ class CalendarEvent(models.Model):
 
     def _mail_get_operation_for_mail_message_operation(self, message_operation):
         # reading messages on private events requires write access, not just read access
-        private = self.filtered(
-            lambda event: event.privacy == "private" and self.env.user.partner_id not in event.attendee_ids.partner_id
-        ) if message_operation == "read" else self.browse()
-        result = super(CalendarEvent, self - private)._mail_get_operation_for_mail_message_operation(message_operation)
-        result.update(dict.fromkeys(private, 'write'))
-        return result
+        operations = super()._mail_get_operation_for_mail_message_operation(message_operation)
+        if message_operation == 'read':
+            domain_private = Domain('privacy', '=', 'private') & (~Domain('attendee_ids.partner_id', '=', self.env.user.partner_id.id)).optimize(self)
+            return (
+                (domain_private, 'write'),
+                *operations,
+            )
+        return operations
 
     def _attendees_values(self, partner_commands):
         """
@@ -1219,7 +1340,7 @@ class CalendarEvent(models.Model):
     def _sync_activities(self, fields):
         # update activities
         for event in self:
-            if event.activity_ids:
+            if event.meeting_activity_ids:
                 activity_values = {}
                 if 'name' in fields:
                     activity_values['summary'] = event.name
@@ -1231,7 +1352,7 @@ class CalendarEvent(models.Model):
                 if 'user_id' in fields:
                     activity_values['user_id'] = event.user_id.id
                 if activity_values.keys():
-                    event.activity_ids.write(activity_values)
+                    event.meeting_activity_ids.write(activity_values)
 
     @api.model
     def _get_activity_deadline_from_start(self, start, allday):
@@ -1241,8 +1362,7 @@ class CalendarEvent(models.Model):
         deadline = start
         user_tz = self.env.context.get('tz')
         if user_tz and not allday:
-            deadline = pytz.utc.localize(deadline)
-            deadline = deadline.astimezone(pytz.timezone(user_tz))
+            deadline = deadline.replace(tzinfo=UTC).astimezone(ZoneInfo(user_tz))
         return deadline.date()
 
     # ------------------------------------------------------------
@@ -1568,10 +1688,9 @@ class CalendarEvent(models.Model):
         if not self.start:
             return fields.Date.today()
         if self.recurrency and self.event_tz:
-            tz = pytz.timezone(self.event_tz)
             # Ensure that all day events date are not calculated around midnight. TZ shift would potentially return bad date
             start = self.start if not self.allday else self.start.replace(hour=12)
-            return pytz.utc.localize(start).astimezone(tz).date()
+            return start.replace(tzinfo=UTC).astimezone(ZoneInfo(self.event_tz)).date()
         return self.start.date()
 
     def _range(self):
@@ -1595,7 +1714,7 @@ class CalendarEvent(models.Model):
             if idate:
                 if allday:
                     return idate
-                return idate.replace(tzinfo=pytz.timezone('UTC'))
+                return idate.replace(tzinfo=ZoneInfo("UTC"))
             return False
 
         if not vobject:
@@ -1782,3 +1901,11 @@ class CalendarEvent(models.Model):
         res = res or ir_default_get('calendar.event', 'duration', company_id=True)
         res = res or ir_default_get('calendar.event', 'duration')
         return res or 1
+
+    # ------------------------------------------------------------
+    # DISCUSS
+    # ------------------------------------------------------------
+
+    def _store_calendar_event_fields(self, res: Store.FieldList):
+        res.extend(["name", "start", "stop", "location"])
+        res.many("partner_ids", ["name"])

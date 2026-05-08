@@ -15,20 +15,27 @@
  **********************************************************/
 
 .modal-dialog:has(.o_calendar_event_form_quick_create) {
-    --modal-width: 490px;
+    --modal-width: #{$o-modal-sm};
 }
 
 .o_calendar_event_form_quick_create {
     .o_form_nosheet {
-        padding: 0;
-        > div {
-            margin-top: 0.5rem;
-            margin-left: 5px;
-            margin-right: 5px;
+        padding-bottom: map-get($spacers, 2);
+    }
+    .o_field_many2many_tags[name="partner_ids"] .o_tags_input {
+        width: 100%;
+    }
+    .o_field_CopyClipboardChar {
+        padding-left: 0 !important;
+    }
+    .o_field_calendar_event_notes_html {
+        @include media-breakpoint-up(sm) {
+            margin-top: -2px;
+        }
+        .note-editable {
+            border: 0;
+            padding-left: 0 !important;
         }
     }
-    i.fa {
-        text-align: center;
-        min-width: 2rem;
-    }
+
 }

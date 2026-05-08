@@ -36,13 +36,6 @@ msgstr ""
 #. module: iap_mail
 #: model_terms:ir.ui.view,arch_db:iap_mail.enrich_company
 msgid ""
-"<i class=\"fa fa-fw me-2 fa-building text-primary\"/>\n"
-"                    <b>Company type</b>"
-msgstr ""
-
-#. module: iap_mail
-#: model_terms:ir.ui.view,arch_db:iap_mail.enrich_company
-msgid ""
 "<i class=\"fa fa-fw me-2 fa-calendar text-primary\"/>\n"
 "                    <b>Founded</b>"
 msgstr ""
@@ -252,6 +245,13 @@ msgstr "Üzenetek száma, melyek akciót igényelnek"
 #: model:ir.model.fields,help:iap_mail.field_iap_account__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Kézbesítési hibával rendelkező üzenetek száma"
+
+#. module: iap_mail
+#: model:ir.model.fields,help:iap_mail.field_iap_account__warning_threshold
+msgid ""
+"Once you have this many credits or less, the system will automatically "
+"notify the following recipients by email. Set to 0 to disable email warnings."
+msgstr ""
 
 #. module: iap_mail
 #: model_terms:ir.ui.view,arch_db:iap_mail.enrich_company

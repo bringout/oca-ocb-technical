@@ -1,4 +1,5 @@
 import { _t } from "@web/core/l10n/translation";
+import { AttendeeCalendarSidePanel } from "@calendar/views/attendee_calendar/side_panel/attendee_calendar_side_panel";
 import { CalendarController } from "@web/views/calendar/calendar_controller";
 import { user } from "@web/core/user";
 import { useService } from "@web/core/utils/hooks";
@@ -8,6 +9,7 @@ export class AttendeeCalendarController extends CalendarController {
     static template = "calendar.AttendeeCalendarController";
     static components = {
         ...AttendeeCalendarController.components,
+        CalendarSidePanel: AttendeeCalendarSidePanel,
         QuickCreateFormView: CalendarQuickCreate,
     };
 
@@ -52,14 +54,24 @@ export class AttendeeCalendarController extends CalendarController {
 
     getQuickCreateFormViewProps(record) {
         const props = super.getQuickCreateFormViewProps(record);
-        const onDialogClosed = () => {
-            this.model.load();
-        };
         return {
             ...props,
             size: "md",
             context: { ...props.context, ...this.props.context },
-            onRecordSaved: () => onDialogClosed(),
+            onRecordSave: async (record) => {
+                const updates = {
+                    ...(!record.data.name && { name: _t("(No Title)") }),
+                    ...(record.data.allday && { show_as: "free" }),
+                };
+                if (Object.keys(updates).length) {
+                    await record.update(updates);
+                }
+                const saved = await record.save({ reload: false });
+                if (saved) {
+                    this.model.load();
+                }
+                return saved;
+            },
         };
     }
 

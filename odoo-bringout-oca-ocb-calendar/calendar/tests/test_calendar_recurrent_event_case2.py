@@ -1,8 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo.tests import common
+from odoo.tests import tagged, common
 
 
+@tagged('at_install', '-post_install')  # LEGACY at_install
 class TestRecurrentEvent(common.TransactionCase):
 
     def setUp(self):
@@ -14,6 +15,7 @@ class TestRecurrentEvent(common.TransactionCase):
         # In order to test recurrent meetings in Odoo, I create meetings with different recurrence using different test cases.
         # I create a recurrent meeting with daily recurrence and fixed amount of time.
         self.CalendarEvent.create({
+            'end_type': 'count',
             'count': 5,
             'start': '2011-04-13 11:04:00',
             'stop': '2011-04-13 12:04:00',
@@ -80,7 +82,7 @@ class TestRecurrentEvent(common.TransactionCase):
                 )
 
         # Edit the max recurrence years
-        self.env['ir.config_parameter'].sudo().set_param('calendar.max_recurrence_years', 5)
+        self.env['ir.config_parameter'].sudo().set_int('calendar.max_recurrence_years', 5)
         for rrule_type, name, expected_count in (
             ('daily', 'Custom Daily Meeting', 720),
             ('monthly', 'Custom Monthly Meeting', 60),

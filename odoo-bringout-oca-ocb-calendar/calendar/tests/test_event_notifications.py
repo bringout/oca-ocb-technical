@@ -9,6 +9,7 @@ from odoo import fields
 from odoo.tests import Form, tagged
 from odoo.tests.common import new_test_user
 from odoo.addons.base.tests.test_ir_cron import CronMixinCase
+from odoo.addons.bus.tests.common import BusResult
 from odoo.addons.mail.tests.common import MailCase
 
 
@@ -143,7 +144,7 @@ class TestEventNotifications(CalendarMailCommon):
 
     @freeze_time('2018')  # class event has hardcoded dates
     def test_message_invite(self):
-        self.env['ir.config_parameter'].sudo().set_param('mail.mail_force_send_limit', None)
+        self.env['ir.config_parameter'].sudo().set_int('mail.mail_force_send_limit', 100)
         with self.assertSinglePostNotifications([{'partner': self.partner, 'type': 'inbox'}], {
             'message_type': 'user_notification',
             'subtype': 'mail.mt_note',
@@ -172,7 +173,7 @@ class TestEventNotifications(CalendarMailCommon):
     @freeze_time('2018')  # class event has hardcoded dates
     def test_message_invite_email_notif_mass_queued(self):
         """Check that more than 20 notified attendees means mails are queued."""
-        self.env['ir.config_parameter'].sudo().set_param('mail.mail_force_send_limit', None)
+        self.env['ir.config_parameter'].sudo().set_int('mail.mail_force_send_limit', 100)
         additional_attendees = self.env['res.partner'].create([{
             'name': f'test{n}',
             'email': f'test{n}@example.com'} for n in range(101)])
@@ -282,33 +283,31 @@ class TestEventNotifications(CalendarMailCommon):
         })
         now = fields.Datetime.now()
 
-        def get_bus_params():
-            return (
-                [(self.env.cr.dbname, "res.partner", self.partner.id)],
-                [
-                    {
-                        "type": "calendar.alarm",
-                        "payload": [
-                            {
-                                "alarm_id": alarm.id,
-                                "event_id": self.event.id,
-                                "title": "Doom's day",
-                                "message": self.event.display_time,
-                                "timer": 20 * 60,
-                                "notify_at": fields.Datetime.to_string(now + relativedelta(minutes=20)),
-                            },
-                        ],
-                    },
-                ],
-            )
+        def notifications():
+            return [
+                BusResult(
+                    self.user,
+                    "calendar.alarm",
+                    [
+                        {
+                            "alarm_id": alarm.id,
+                            "event_id": self.event.id,
+                            "title": "Doom's day",
+                            "message": self.event.display_time,
+                            "timer": 20 * 60,
+                            "notify_at": fields.Datetime.to_string(now + relativedelta(minutes=20)),
+                        },
+                    ],
+                ),
+            ]
 
         with patch.object(fields.Datetime, 'now', lambda: now):
-            with self.assertBus(get_params=get_bus_params):
+            with self.assertBus(notifications):
                 self.event.with_context(no_mail_to_attendees=True).write({
                     'start': now + relativedelta(minutes=50),
                     'stop': now + relativedelta(minutes=55),
                     'partner_ids': [(4, self.partner.id)],
-                    'alarm_ids': [(4, alarm.id)]
+                    'alarm_ids': [(6, 0, alarm.ids)]
                 })
 
     def test_bus_notif_organizer(self):
@@ -329,30 +328,27 @@ class TestEventNotifications(CalendarMailCommon):
             'partner_ids': [fields.Command.set(admin_partner.ids)],
             'alarm_ids': [fields.Command.set([alarm.id])],
         })
-        self._reset_bus()
 
-        def get_bus_params():
-            return (
-                [(self.env.cr.dbname, "res.partner", admin_partner.id)],
-                [
-                    {
-                        'type': "calendar.alarm",
-                        'payload': [
-                            {
-                                'alarm_id': alarm.id,
-                                'event_id': event.id,
-                                'title': "Admin Meeting",
-                                'message': event.display_time,
-                                'timer': 20 * 60,
-                                'notify_at': fields.Datetime.to_string(now + relativedelta(minutes=20)),
-                            },
-                        ],
-                    },
-                ],
-            )
+        def notifications():
+            return [
+                BusResult(
+                    self.user_admin,
+                    "calendar.alarm",
+                    [
+                        {
+                            "alarm_id": alarm.id,
+                            "event_id": event.id,
+                            "title": "Admin Meeting",
+                            "message": event.display_time,
+                            "timer": 20 * 60,
+                            "notify_at": fields.Datetime.to_string(now + relativedelta(minutes=20)),
+                        },
+                    ],
+                ),
+            ]
 
         with freeze_time(now):
-            with self.assertBus(get_params=get_bus_params):
+            with self.assertBus(notifications):
                 event.with_context(no_mail_to_attendees=True).write({
                     'alarm_ids': [fields.Command.set([alarm.id])],
                 })
@@ -404,7 +400,7 @@ class TestEventNotifications(CalendarMailCommon):
                     'start': now + relativedelta(minutes=15),
                     'stop': now + relativedelta(minutes=20),
                     'alarm_ids': [fields.Command.link(alarm.id)],
-                }).with_context(mail_notrack=True)
+                })
                 self.env.flush_all()
                 self.assertEqual(len(capt.records), 1)
         with self.capture_triggers('calendar.ir_cron_scheduler_alarm') as capt:
@@ -419,7 +415,7 @@ class TestEventNotifications(CalendarMailCommon):
                     'day': 13,
                     'count': 5,
                     'alarm_ids': [fields.Command.link(alarm.id)],
-                }).with_context(mail_notrack=True)
+                })
                 self.env.flush_all()
                 self.assertEqual(len(capt.records), 1, "1 trigger should have been created for the whole recurrence")
                 self.assertEqual(capt.records.call_at, datetime(2022, 4, 13, 10, 14))
@@ -442,7 +438,7 @@ class TestEventNotifications(CalendarMailCommon):
                     'stop_date': now.date() + relativedelta(days=1),
                     'allday': True,
                     'alarm_ids': [fields.Command.link(alarm.id)],
-                }).with_context(mail_notrack=True)
+                })
                 self.env.flush_all()
                 self.assertEqual(len(capt.records), 1)
 
@@ -460,7 +456,7 @@ class TestEventNotifications(CalendarMailCommon):
                     'day': 13,
                     'count': 5,
                     'alarm_ids': [fields.Command.link(alarm.id)],
-                }).with_context(mail_notrack=True)
+                })
                 self.env.flush_all()
                 self.assertEqual(len(capt.records), 1)
 
@@ -485,7 +481,7 @@ class TestEventNotifications(CalendarMailCommon):
                     'count': 2,
                     'day': 16,
                     'alarm_ids': [fields.Command.link(alarm_hour.id)],
-                }).with_context(mail_notrack=True)
+                })
                 self.env.flush_all()
                 # Ensure that there is only one alarm set, exactly for one hour previous the event.
                 self.assertEqual(len(capt.records), 1, "Only one trigger must be created for the entire recurrence.")
@@ -521,7 +517,7 @@ class TestEventNotifications(CalendarMailCommon):
                     'rrule_type': 'daily',
                     'count': 3,
                     'alarm_ids': [fields.Command.link(alarm.id)],
-                }).with_context(mail_notrack=True)
+                })
                 self.env.flush_all()
                 self.assertEqual(len(capt.records), 1, "1 trigger should have been created for the whole recurrence (1)")
                 self.assertEqual(capt.records.call_at, datetime(2022, 4, 13, 10, 10))
@@ -555,7 +551,7 @@ class TestEventNotifications(CalendarMailCommon):
             'start': datetime(2023, 11, 15, 23, 0),  # 00:00 next day
             'stop': datetime(2023, 11, 16, 0, 0),  # 01:00 next day
         }
-        ]).with_context(mail_notrack=True)
+        ])
         with freeze_time('2023-11-15 17:30:00'):    # 18:30 before event
             self.assertEqual(search_event(), events[0])
         with freeze_time('2023-11-15 18:00:00'):    # 19:00 during event
@@ -573,7 +569,7 @@ class TestEventNotifications(CalendarMailCommon):
             'name': "Meeting",
             'start': datetime(2023, 11, 16, 0, 0), # 19:00 15th November
             'stop': datetime(2023, 11, 16, 1, 0),  # 20:00 15th November
-        }).with_context(mail_notrack=True)
+        })
         with freeze_time('2023-11-15 23:30:00'):    # 18:30 before event
             self.assertEqual(search_event(), event)
         with freeze_time('2023-11-16 00:00:00'):    # 19:00 during event
@@ -590,7 +586,7 @@ class TestEventNotifications(CalendarMailCommon):
             'name': "Meeting",
             'start': datetime(2023, 11, 16, 21, 0), # 16:00 16th November
             'stop': datetime(2023, 11, 16, 22, 0),  # 27:00 16th November
-        }).with_context(mail_notrack=True)
+        })
         with freeze_time('2023-11-15 19:00:00'):    # 14:00 the day before event
             self.assertEqual(len(search_event()), 0)
         event.unlink()
@@ -616,7 +612,7 @@ class TestEventNotifications(CalendarMailCommon):
             'allday': True,
             'start': "2023-11-15",
         }
-        ]).with_context(mail_notrack=True)
+        ])
         with freeze_time('2023-11-15 16:00:00'):
             self.assertEqual(len(search_event()), 3)
         events.unlink()
@@ -638,33 +634,31 @@ class TestEventNotifications(CalendarMailCommon):
 
         now = fields.Datetime.now()
 
-        def get_bus_params():
-            return (
-                [(self.env.cr.dbname, "res.partner", self.partner.id)],
-                [
-                    {
-                        "type": "calendar.alarm",
-                        "payload": [
-                            {
-                                "alarm_id": alarm.id,
-                                "event_id": self.event.id,
-                                "title": "Doom's day",
-                                "message": self.event.display_time,
-                                "timer": 20 * 60,
-                                "notify_at": fields.Datetime.to_string(now + relativedelta(minutes=20)),
-                            },
-                        ],
-                    },
-                ],
-            )
+        def notifications():
+            return [
+                BusResult(
+                    self.user,
+                    "calendar.alarm",
+                    [
+                        {
+                            "alarm_id": alarm.id,
+                            "event_id": self.event.id,
+                            "title": "Doom's day",
+                            "message": self.event.display_time,
+                            "timer": 20 * 60,
+                            "notify_at": fields.Datetime.to_string(now + relativedelta(minutes=20)),
+                        },
+                    ],
+                ),
+            ]
 
         with patch.object(fields.Datetime, 'now', lambda: now):
-            with self.assertBus(get_params=get_bus_params):
+            with self.assertBus(notifications):
                 self.event.with_context(no_mail_to_attendees=True).write({
                     'start': now + relativedelta(minutes=50),
                     'stop': now + relativedelta(minutes=55),
                     'partner_ids': [(4, self.partner.id)],
-                    'alarm_ids': [(4, alarm.id)]
+                    'alarm_ids': [(6, 0, alarm.ids)]
                 })
 
     def test_calendar_recurring_event_delete_notification(self):

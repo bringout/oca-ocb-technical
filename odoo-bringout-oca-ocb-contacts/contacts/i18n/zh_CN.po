@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.5alpha1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-25 18:36+0000\n"
+"POT-Creation-Date: 2026-02-04 18:35+0000\n"
 "PO-Revision-Date: 2025-11-16 15:08+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.odoo.com/"
@@ -25,14 +25,8 @@ msgstr ""
 
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.menu_action_res_partner_bank_form
-#: model:ir.ui.menu,name:contacts.menu_config_bank_accounts
 msgid "Bank Accounts"
 msgstr "银行账户"
-
-#. module: contacts
-#: model:ir.ui.menu,name:contacts.menu_action_res_bank_form
-msgid "Banks"
-msgstr "银行"
 
 #. module: contacts
 #: model:ir.ui.menu,name:contacts.res_partner_menu_config
@@ -112,6 +106,3 @@ msgstr "Odoo 可帮助您跟踪与您的联系人相关的所有活动。"
 #: model:ir.model,name:contacts.model_res_users
 msgid "User"
 msgstr "用户"
-
-#~ msgid "Contact Titles"
-#~ msgstr "联系人称谓"

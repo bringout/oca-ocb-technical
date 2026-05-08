@@ -1,5 +1,5 @@
+import { useState } from "@web/owl2/utils";
 import { Many2ManyAttendee, many2ManyAttendee } from "@calendar/views/fields/many2many_attendee";
-import { useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 
 export class Many2ManyAttendeeExpandable extends Many2ManyAttendee {
@@ -12,6 +12,10 @@ export class Many2ManyAttendeeExpandable extends Many2ManyAttendee {
         this.acceptedCount = this.props.record.data.accepted_count;
         this.declinedCount = this.props.record.data.declined_count;
         this.uncertainCount = this.attendeesCount - this.acceptedCount - this.declinedCount;
+    }
+
+    get tagLimit() {
+        return this.state.expanded ? Number.POSITIVE_INFINITY : 5;
     }
 
     onExpanderClick() {

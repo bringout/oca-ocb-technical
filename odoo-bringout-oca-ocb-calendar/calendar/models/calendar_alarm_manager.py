@@ -2,7 +2,9 @@
 
 from datetime import timedelta
 
-from odoo import api, fields, models
+from markupsafe import Markup
+
+from odoo import _, api, fields, models
 from odoo.tools import plaintext2html
 from odoo.tools.sql import SQL
 
@@ -133,7 +135,7 @@ class CalendarAlarm_Manager(models.AbstractModel):
         return result
 
     @api.model
-    def _get_notify_alert_extra_conditions(self):
+    def _get_notify_alert_extra_conditions(self, alarm_type=None):
         """
         To be overriden on inherited modules
         adding extra conditions to extract only the unsynced events
@@ -151,8 +153,7 @@ class CalendarAlarm_Manager(models.AbstractModel):
         already.
         """
         lastcall = self.env.context.get('lastcall', False) or fields.Date.today() - timedelta(weeks=1)
-        # TODO MASTER: remove context and add a proper parameter
-        extra_conditions = self.with_context(alarm_type=alarm_type)._get_notify_alert_extra_conditions()
+        extra_conditions = self._get_notify_alert_extra_conditions(alarm_type)
         now = fields.Datetime.now()
         self.env.cr.execute(SQL("""
             SELECT alarm.id, event.id
@@ -186,7 +187,7 @@ class CalendarAlarm_Manager(models.AbstractModel):
             return
 
         # force_send limit should apply to the total nb of attendees, not per alarm
-        force_send_limit = int(self.env['ir.config_parameter'].sudo().get_param('mail.mail_force_send_limit', 100))
+        force_send_limit = self.env['ir.config_parameter'].sudo().get_int('mail.mail_force_send_limit', 100)
 
         event_ids = list(set(event_id for event_ids in events_by_alarm.values() for event_id in event_ids))
         events = self.env['calendar.event'].browse(event_ids)
@@ -199,6 +200,7 @@ class CalendarAlarm_Manager(models.AbstractModel):
                 alarm.mail_template_id,
                 force_send=len(attendees) <= force_send_limit,
                 notify_author=True,
+                completion_log_message=_('The %s reminder was sent', Markup('<i>%s</i>') % alarm.name)
             )
 
         events._setup_event_recurrent_alarms(events_by_alarm)
