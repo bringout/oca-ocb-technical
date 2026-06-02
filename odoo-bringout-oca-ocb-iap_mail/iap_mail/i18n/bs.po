@@ -307,3 +307,14 @@ msgstr "Broj poruka sa greškom u dostavi"
 #: model_terms:ir.ui.view,arch_db:iap_mail.enrich_company
 msgid "http://www.twitter.com/"
 msgstr "http://www.twitter.com/"
+
+#. module: iap_mail
+#: model:ir.model.fields,help:iap_mail.field_iap_account__warning_threshold
+msgid ""
+"Once you have this many credits or less, the system will automatically "
+"notify the following recipients by email. Set to 0 to disable email "
+"warnings."
+msgstr ""
+"Kada budete imali ovoliko kredita ili manje, sistem će automatski "
+"obavijestiti sljedeće primaoce putem e-maila. Postavite na 0 da isključite "
+"upozorenja putem e-maila."

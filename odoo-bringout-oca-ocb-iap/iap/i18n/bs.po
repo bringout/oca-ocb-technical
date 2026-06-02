@@ -41,7 +41,7 @@ msgstr "Kupi kredite"
 #: code:addons/iap/static/src/xml/iap_templates.xml:0
 #, python-format
 msgid "Cancel"
-msgstr "Otkaži"
+msgstr "Odustani"
 
 # taken from hr.po
 #. module: iap
@@ -53,7 +53,7 @@ msgstr "Kompanija"
 #. module: iap
 #: model:ir.model,name:iap.model_res_config_settings
 msgid "Config Settings"
-msgstr "krediti"
+msgstr "Postavke konfiguracije"
 
 # taken from hr.po
 #. module: iap
@@ -71,7 +71,7 @@ msgstr "Kreirano"
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__display_name
 msgid "Display Name"
-msgstr "Naziv za prikaz"
+msgstr "Naziv prikaza"
 
 # taken from hr.po
 #. module: iap
@@ -116,19 +116,19 @@ msgstr "Nedovoljno kredita za izvršavanje ove usluge"
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account____last_update
 msgid "Last Modified on"
-msgstr "Zadnja izmjena"
+msgstr "Zadnji put izmijenjeno"
 
 # taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__write_uid
 msgid "Last Updated by"
-msgstr "Zadnji ažurirao"
+msgstr "Zadnji put ažurirao"
 
 # taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__write_date
 msgid "Last Updated on"
-msgstr "Zadnje ažurirano"
+msgstr "Zadnji put ažurirano"
 
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
@@ -338,3 +338,161 @@ msgstr "Naziv jedinice"
 #: model:ir.model.fields.selection,name:iap.selection__iap_account__state__unregistered
 msgid "Unregistered"
 msgstr "Neregistrovano"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Account Name"
+msgstr "Naziv konta"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Auto-Refill"
+msgstr "Automatsko dopunjavanje"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__auto_refill_pack_id
+msgid "Auto-refill Pack"
+msgstr "Paket automatskog dopunjavanja"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__auto_refill_threshold
+msgid "Auto-refill Threshold"
+msgstr "Prag automatskog dopunjavanja"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__balance_amount
+msgid "Balance Amount"
+msgstr "Saldo"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Buy"
+msgstr "Kupi"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Buy Credits"
+msgstr "Kupiti kredite"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service_pack__credit
+msgid "Credit"
+msgstr "Potražuje"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Email Alert"
+msgstr "E-mail upozorenje"
+
+#. module: iap
+#: model:ir.model,name:iap.model_iap_service_pack
+msgid "IAP Service Pack"
+msgstr "IAP servisni paket"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service_pack__iap_service_pack_identifier
+msgid "Iap Service Pack Identifier"
+msgstr "Identifikator IAP servisnog paketa"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "In-App Purchase Account"
+msgstr "Konto za In-App kupovinu"
+
+#. module: iap
+#: model:ir.actions.act_window,name:iap.iap_account_action
+msgid "In-App Purchase Accounts"
+msgstr "Konti za In-App kupovinu"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_service_pack_view_tree
+msgid "In-App Purchase Service Packs"
+msgstr "IAP servisni paketi"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__is_balance_below_warning_threshold
+msgid "Is Balance Below Warning Threshold"
+msgstr "Da li je stanje ispod praga upozorenja"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Manage your auto-refill payment method"
+msgstr "Upravljajte svojim načinom plaćanja za automatsko dopunjavanje"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
+msgid "Odoo In-App Purchase"
+msgstr "Odoo In-App kupovina"
+
+#. module: iap
+#: model:ir.model.fields,help:iap.field_iap_account__auto_refill_threshold
+msgid ""
+"Once you have this many credits or less, the system will automatically buy "
+"the following pack with your payment method on file. Set to 0 to disable "
+"auto-refill."
+msgstr ""
+"Kada budete imali ovoliko kredita ili manje, sistem će automatski kupiti "
+"sljedeći paket s vašim načinom plaćanja u zapisima. Postavite na 0 da "
+"isključite automatsko dopunjavanje."
+
+#. module: iap
+#: model:ir.model.fields,help:iap.field_iap_account__warning_threshold
+msgid ""
+"Once you have this many credits or less, the system will automatically "
+"notify the following recipients by email. Set to 0 to disable email "
+"warnings."
+msgstr ""
+"Kada budete imali ovoliko kredita ili manje, sistem će automatski "
+"obavijestiti sljedeće primaoce putem e-maila. Postavite na 0 da isključite "
+"upozorenja putem e-maila."
+
+#. module: iap
+#: model:ir.model.constraint,message:iap.constraint_iap_service_pack_unique_iap_service_pack_identifier
+msgid ""
+"Only one service pack can exist with a specific iap_service_pack_identifier"
+msgstr ""
+"Samo jedan servisni paket može postojati sa određenim "
+"iap_service_pack_identifier"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_price_description
+msgid "Price Description"
+msgstr "Opis cijene"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service_pack__price
+msgid "Sales Price (EUR)"
+msgstr "Prodajna cijena (EUR)"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service__pack_ids
+msgid "Service Packs"
+msgstr "Servisni paketi"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "Set Alerts & Auto-Refill"
+msgstr "Postavi upozorenja i automatsko dopunjavanje"
+
+#. module: iap
+#: code:addons/iap/models/iap_account.py:0
+msgid ""
+"The IAP server is unreachable and the information may not be up to date.\n"
+"Please try again later."
+msgstr ""
+"IAP server je nedostupan i informacije možda nisu ažurne.\n"
+"Molimo pokušajte ponovo kasnije."
+
+#. module: iap
+#: model:ir.model.fields,help:iap.field_iap_account__auto_refill_pack_id
+msgid ""
+"The In-App Purchase pack the system will automatically buy when reaching "
+"your refill threshold."
+msgstr ""
+"IAP paket koji će sistem automatski kupiti kada dostignete vaš prag "
+"dopunjavanja."
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.view_iap_users_tree
+msgid "Users"
+msgstr "Korisnici"

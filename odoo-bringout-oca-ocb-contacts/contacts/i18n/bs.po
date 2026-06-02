@@ -98,7 +98,7 @@ msgstr ""
 #. module: contacts
 #: model:ir.model,name:contacts.model_res_users
 msgid "User"
-msgstr "Kreirajte kontakt u vašem adresaru"
+msgstr "Korisnik"
 
 #. module: contacts
 #: model:ir.model,name:contacts.model_res_partner
@@ -119,3 +119,18 @@ msgstr "Naziv za prikaz"
 #: model:ir.model.fields,field_description:contacts.field_res_partner__id
 msgid "ID"
 msgstr "ID"
+
+#. module: contacts
+#: model_terms:ir.ui.view,arch_db:contacts.res_partner_view_hierarchy
+msgid "<i class=\"fa fa-fw me-1 fa-envelope text-muted\" title=\"Email\"/>"
+msgstr "<i class=\"fa fa-fw me-1 fa-envelope text-muted\" title=\"E-mail\"/>"
+
+#. module: contacts
+#: model_terms:ir.ui.view,arch_db:contacts.res_partner_view_hierarchy
+msgid "<i class=\"fa fa-fw me-1 fa-map-marker\" title=\"Location\"/>"
+msgstr "<i class=\"fa fa-fw me-1 fa-map-marker\" title=\"Lokacija\"/>"
+
+#. module: contacts
+#: model_terms:ir.ui.view,arch_db:contacts.res_partner_view_hierarchy
+msgid "<i class=\"fa fa-fw me-1 fa-phone text-muted\" title=\"Phone\"/>"
+msgstr "<i class=\"fa fa-fw me-1 fa-phone text-muted\" title=\"Telefon\"/>"

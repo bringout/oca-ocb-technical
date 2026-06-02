@@ -191,7 +191,7 @@ msgstr "Obriši"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__display_name
 msgid "Display Name"
-msgstr "Naziv za prikaz"
+msgstr "Naziv prikaza"
 
 # taken from hr.po
 #. module: note
@@ -286,19 +286,19 @@ msgstr "Je pratilac"
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note____last_update
 msgid "Last Modified on"
-msgstr "Zadnja izmjena"
+msgstr "Zadnji put izmijenjeno"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__write_uid
 msgid "Last Updated by"
-msgstr "Zadnji ažurirao"
+msgstr "Zadnji put ažurirao"
 
 # taken from hr.po
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__write_date
 msgid "Last Updated on"
-msgstr "Zadnje ažurirano"
+msgstr "Zadnji put ažurirano"
 
 # taken from hr.po
 #. module: note
@@ -402,7 +402,7 @@ msgstr "Oznaka bilješke"
 #: code:addons/note/models/res_users.py:0
 #, python-format
 msgid "Notes"
-msgstr "Zabilješke"
+msgstr "Napomene"
 
 # taken from hr.po
 #. module: note
