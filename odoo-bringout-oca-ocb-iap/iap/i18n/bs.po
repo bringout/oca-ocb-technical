@@ -18,7 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
@@ -26,28 +27,22 @@ msgid ""
 "<i class=\"oi oi-arrow-right\"/>\n"
 "                                    Buy Credit"
 msgstr ""
-"<i class=\"oi oi-arrow-right\"/>\n"
-"                                    Kupi kredit"
 
-# taken from hr.po
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
 msgid "Account Information"
-msgstr "Informacije o računu"
+msgstr ""
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__account_token
 msgid "Account Token"
-msgstr "Token računa"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,help:iap.field_iap_account__account_token
 msgid ""
 "Account token is your authentication key for this service. Do not share it."
 msgstr ""
-"Token računa je vaš autentifikacijski ključ za ovu uslugu. Nemojte ga "
-"dijeliti."
 
 #. module: iap
 #. odoo-python
@@ -56,118 +51,119 @@ msgid ""
 "An error occurred while reaching %s. Please contact Odoo support if this "
 "error persists."
 msgstr ""
-"Došlo je do greške pri kontaktiranju %s. Kontaktirajte Odoo podršku ako se "
-"ova greška ponavlja."
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__balance
 msgid "Balance"
-msgstr "Saldo"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields.selection,name:iap.selection__iap_account__state__banned
 msgid "Banned"
-msgstr "Zabranjeno"
+msgstr ""
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__company_ids
 msgid "Company"
 msgstr "Kompanija"
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__create_uid
+#: model:ir.model.fields,field_description:iap.field_iap_service__create_uid
 msgid "Created by"
 msgstr "Kreirao"
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__create_date
+#: model:ir.model.fields,field_description:iap.field_iap_service__create_date
 msgid "Created on"
 msgstr "Kreirano"
 
 #. module: iap
 #: model:iap.service,unit_name:iap.iap_service_reveal
 msgid "Credits"
-msgstr "Krediti"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__description
+#: model:ir.model.fields,field_description:iap.field_iap_service__description
 msgid "Description"
-msgstr "Opis"
+msgstr ""
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__display_name
+#: model:ir.model.fields,field_description:iap.field_iap_enrich_api__display_name
+#: model:ir.model.fields,field_description:iap.field_iap_service__display_name
 msgid "Display Name"
-msgstr "Naziv za prikaz"
+msgstr "Prikazani naziv"
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__warning_user_ids
 msgid "Email Alert Recipients"
-msgstr "Primaoci email upozorenja"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__warning_threshold
 msgid "Email Alert Threshold"
-msgstr "Prag za email upozorenje"
+msgstr ""
 
 #. module: iap
 #: model:iap.service,description:iap.iap_service_reveal
 msgid ""
 "Get quality leads and opportunities: convert your website visitors into "
-"leads, generate leads based on a set of criteria and enrich the company data"
-" of your opportunities."
+"leads, generate leads based on a set of criteria and enrich the company data "
+"of your opportunities."
 msgstr ""
-"Dobijte kvalitetne tragove i prilike: pretvorite posjetitelje vaše web "
-"stranice u tragove, generišite tragove na osnovu skupa kriterija i obogatite"
-" podatke o kompaniji vaših prilika."
 
 #. module: iap
 #: model:ir.ui.menu,name:iap.iap_root_menu
 msgid "IAP"
-msgstr "IAP"
+msgstr ""
 
 #. module: iap
 #: model:ir.actions.act_window,name:iap.iap_account_action
+#: model:ir.model,name:iap.model_iap_account
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
 msgid "IAP Account"
-msgstr "IAP Račun"
+msgstr ""
 
 #. module: iap
 #: model:ir.ui.menu,name:iap.iap_account_menu
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
 msgid "IAP Accounts"
-msgstr "IAP Računi"
+msgstr ""
 
 #. module: iap
 #: model:ir.model,name:iap.model_iap_enrich_api
 msgid "IAP Lead Enrichment API"
-msgstr "IAP API za obogaćivanje potencijalnih kupaca"
+msgstr ""
 
 #. module: iap
 #: model:ir.model,name:iap.model_iap_service
 msgid "IAP Service"
-msgstr "IAP usluga"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__id
+#: model:ir.model.fields,field_description:iap.field_iap_enrich_api__id
+#: model:ir.model.fields,field_description:iap.field_iap_service__id
 msgid "ID"
 msgstr "ID"
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_service__integer_balance
 msgid "Integer Balance"
-msgstr "Cjelobrojno stanje"
+msgstr ""
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__write_uid
+#: model:ir.model.fields,field_description:iap.field_iap_service__write_uid
 msgid "Last Updated by"
 msgstr "Zadnji ažurirao"
 
-# taken from hr.po
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__write_date
+#: model:ir.model.fields,field_description:iap.field_iap_service__write_date
 msgid "Last Updated on"
 msgstr "Zadnje ažurirano"
 
@@ -175,18 +171,19 @@ msgstr "Zadnje ažurirano"
 #. odoo-javascript
 #: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml:0
 msgid "Manage Service & Buy Credits"
-msgstr "Upravljaj uslugom i kupi kredite"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__name
+#: model:ir.model.fields,field_description:iap.field_iap_service__name
 msgid "Name"
-msgstr "Naziv"
+msgstr ""
 
 #. module: iap
 #. odoo-python
 #: code:addons/iap/models/iap_account.py:0
 msgid "No service exists with the provided technical name"
-msgstr "Ne postoji usluga sa navedenim tehničkim nazivom"
+msgstr ""
 
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
@@ -200,150 +197,79 @@ msgid ""
 "One of the email alert recipients doesn't have an email address set. Users: "
 "%s"
 msgstr ""
-"Jedan od primalaca email upozorenja nema postavljenu email adresu. "
-"Korisnici: %s"
 
 #. module: iap
 #: model:ir.model.constraint,message:iap.constraint_iap_service_unique_technical_name
 msgid "Only one service can exist with a specific technical_name"
-msgstr "Može postojati samo jedna usluga sa određenim technical_name"
+msgstr ""
 
 #. module: iap
 #. odoo-python
 #: code:addons/iap/models/iap_account.py:0
 msgid "Please set a positive email alert threshold."
-msgstr "Molimo postavite pozitivan prag za email upozorenje."
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields.selection,name:iap.selection__iap_account__state__registered
 msgid "Registered"
-msgstr "Registrovan"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__service_id
 msgid "Service"
-msgstr "Usluga"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__service_locked
 msgid "Service Locked"
-msgstr "Usluga zaključana"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__state
 msgid "State"
-msgstr "Stanje"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__service_name
+#: model:ir.model.fields,field_description:iap.field_iap_service__technical_name
 msgid "Technical Name"
-msgstr "Tehnički naziv"
+msgstr ""
 
 #. module: iap
 #. odoo-python
 #: code:addons/iap/models/iap_account.py:0
 msgid "The IAP token provided is invalid or empty."
-msgstr "Dostavljeni IAP token je neispravan ili prazan."
+msgstr ""
 
 #. module: iap
 #. odoo-python
 #: code:addons/iap/tools/iap_tools.py:0
-#, python-format
 msgid ""
 "The request to the service timed out. Please contact the author of the app. "
 "The URL it tried to contact was %s"
 msgstr ""
-"Zahtjev za uslugu je istekao. Molimo kontaktirajte autora aplikacije. URL "
-"koji je pokušao kontaktirati bio je %s"
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_service__unit_name
 msgid "Unit Name"
-msgstr "Naziv jedinice"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields.selection,name:iap.selection__iap_account__state__unregistered
 msgid "Unregistered"
-msgstr "Neregistrovano"
+msgstr ""
 
-# taken from hr.po
 #. module: iap
 #. odoo-javascript
 #: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml:0
-#, python-format
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
 msgid "View My Services"
-msgstr "Pogledaj moje usluge"
+msgstr ""
 
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
 msgid "View your IAP Services and recharge your credits"
-msgstr "Privremeno nedostupno"
-
-# taken from hr.po
-#. module: iap
-#: code:addons/iap/static/src/action_buttons_widget/action_buttons_widget.xml:0
-#, python-format
-msgid "Buy credits"
-msgstr "Kupi kredite"
-
-# taken from hr.po
-#. module: iap
-#: code:addons/iap/static/src/xml/iap_templates.xml:0
-#, python-format
-msgid "Cancel"
-msgstr "Otkaži"
-
-# taken from hr.po
-#. module: iap
-#: model:ir.model,name:iap.model_res_config_settings
-msgid "Config Settings"
-msgstr "krediti"
-
-# taken from hr.po
-#. module: iap
-#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
-msgid "Documentation"
-msgstr "Kupite kredite na Odoo"
-
-# taken from hr.po
-#. module: iap
-#: code:addons/iap/static/src/xml/iap_templates.xml:0
-#, python-format
-msgid "Insufficient credit to perform this service."
-msgstr "Nedovoljno kredita za izvršavanje ove usluge"
-
-# taken from hr.po
-#. module: iap
-#: model:ir.model.fields,field_description:iap.field_iap_account____last_update
-msgid "Last Modified on"
-msgstr "Zadnja izmjena"
-
-#. module: iap
-#: model:ir.actions.server,name:iap.open_iap_account
-msgid "Open IAP Account"
-msgstr "Otvori IAP Račun"
-
-# taken from hr.po
-#. module: iap
-#: model:ir.model.fields,field_description:iap.field_iap_account__service_name
-msgid "Service Name"
-msgstr "Naziv usluge"
-
-#. module: iap
-#: code:addons/iap/static/src/js/insufficient_credit_error_handler.js:0
-#, python-format
-msgid "Start a Trial at Odoo"
-msgstr "Pokrenite probni period na Odoo"
-
-#. module: iap
-#: code:addons/iap/tools/iap_tools.py:0
-#, python-format
-msgid ""
-"The url that this service requested returned an error. Please contact the "
-"author of the app. The url it tried to contact was %s"
 msgstr ""
-"URL koji je ovaj servis zahtijevao vratio je grešku. Molimo kontaktirajte "
-"autora aplikacije. URL koji je pokušao kontaktirati bio je %s"
 
 #~ msgid "Cancel"
 #~ msgstr "Otkaži"
