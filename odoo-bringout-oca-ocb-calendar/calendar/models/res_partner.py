@@ -4,6 +4,7 @@
 from datetime import datetime
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class Partner(models.Model):
@@ -23,20 +24,21 @@ class Partner(models.Model):
 
     def _compute_meeting(self):
         if self.ids:
-            all_partners = self.with_context(active_test=False).search([('id', 'child_of', self.ids)])
+            # prefetch 'parent_id'
+            all_partners = self.with_context(active_test=False).search_fetch(
+                [('id', 'child_of', self.ids)], ['parent_id'],
+            )
 
-            event_id = self.env['calendar.event']._search([])  # ir.rules will be applied
-            subquery_string, subquery_params = event_id.select()
-            subquery = self.env.cr.mogrify(subquery_string, subquery_params).decode()
-
-            self.env.cr.execute("""
+            query = self.env['calendar.event']._search([])  # ir.rules will be applied
+            meeting_data = self.env.execute_query(SQL("""
                 SELECT res_partner_id, calendar_event_id, count(1)
                   FROM calendar_event_res_partner_rel
-                 WHERE res_partner_id IN %s AND calendar_event_id IN ({})
+                 WHERE res_partner_id IN %s AND calendar_event_id IN %s
               GROUP BY res_partner_id, calendar_event_id
-            """.format(subquery), [tuple(p["id"] for p in all_partners)])
-
-            meeting_data = self.env.cr.fetchall()
+                """,
+                all_partners._ids,
+                query.subselect(),
+            ))
 
             # Create a dict {partner_id: event_ids} and fill with events linked to the partner
             meetings = {}
@@ -44,19 +46,19 @@ class Partner(models.Model):
                 meetings.setdefault(p_id, set()).add(m_id)
 
             # Add the events linked to the children of the partner
-            for meeting_pid in set(meetings):
-                partner = self.browse(meeting_pid)
-                while partner:
+            for p in self.browse(meetings.keys()):
+                partner = p
+                while partner.parent_id:
                     partner = partner.parent_id
                     if partner in self:
-                        meetings[partner.id] = meetings.get(partner.id, set()) | meetings[meeting_pid]
+                        meetings[partner.id] = meetings.get(partner.id, set()) | meetings[p.id]
             return {p_id: list(meetings.get(p_id, set())) for p_id in self.ids}
         return {}
 
     def get_attendee_detail(self, meeting_ids):
         """ Return a list of dict of the given meetings with the attendees details
             Used by:
-                - base_calendar.js : Many2ManyAttendee
+                - many2many_attendee.js: Many2ManyAttendee
                 - calendar_model.js (calendar.CalendarModel)
         """
         attendees_details = []
