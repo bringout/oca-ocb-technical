@@ -6,8 +6,11 @@ from datetime import date, datetime, timedelta
 
 from odoo import fields, Command
 from odoo.addons.base.tests.common import HttpCaseWithUserDemo
+from odoo.exceptions import AccessError
 from odoo.tests import Form, tagged, new_test_user
 from odoo.addons.base.tests.common import SavepointCaseWithUserDemo
+
+import freezegun
 import pytz
 import re
 import base64
@@ -153,50 +156,101 @@ class TestCalendar(SavepointCaseWithUserDemo):
         self.assertEqual(test_event.res_id, test_record.id)
         self.assertEqual(len(test_record.activity_ids), 1)
 
+    def test_event_activity_user_sync(self):
+        # ensure phonecall activity type exists
+        activty_type = self.env['mail.activity.type'].create({
+            'name': 'Call',
+            'category': 'phonecall'
+        })
+        activity = self.env['mail.activity'].create({
+            'summary': 'Call with Demo',
+            'activity_type_id': activty_type.id,
+            'note': 'Schedule call with Admin',
+            'res_model_id': self.env['ir.model']._get_id('res.partner'),
+            'res_id': self.env['res.partner'].create({'name': 'Test Partner'}).id,
+            'user_id': self.user_demo.id,
+        })
+        action_context = activity.action_create_calendar_event().get('context', {})
+        event_from_activity = self.env['calendar.event'].with_context(action_context).create({
+            'start': '2022-07-27 14:30:00',
+            'stop': '2022-07-27 16:30:00',
+        })
+        # Check that assignation of the activity hasn't changed, and event is having
+        # correct values set in attendee and organizer related fields
+        self.assertEqual(activity.user_id, self.user_demo)
+        self.assertEqual(event_from_activity.partner_ids, activity.user_id.partner_id)
+        self.assertEqual(event_from_activity.attendee_ids.partner_id, activity.user_id.partner_id)
+        self.assertEqual(event_from_activity.user_id, activity.user_id)
+
     def test_activity_event_multiple_meetings(self):
         # Creating multiple meetings from an activity creates additional activities
         # ensure meeting activity type exists
-        meeting_act_type = self.env['mail.activity.type'].search([('category', '=', 'meeting')], limit=1)
-        if not meeting_act_type:
-            meeting_act_type = self.env['mail.activity.type'].create({
-                'name': 'Meeting Test',
-                'category': 'meeting',
-            })
+        meeting_act_type = self.env.ref('mail.mail_activity_data_meeting')
 
         # have a test model inheriting from activities
         test_record = self.env['res.partner'].create({
             'name': 'Test',
         })
 
-        activity_id = self.env['mail.activity'].create({
-            'summary': 'Meeting with partner',
+        activity_1 = self.env['mail.activity'].create({
+            'summary': 'Meeting 1 with partner',
             'activity_type_id': meeting_act_type.id,
             'res_model_id': self.env['ir.model']._get_id('res.partner'),
             'res_id': test_record.id,
         })
 
-        calendar_action = activity_id.with_context(default_res_model='res.partner', default_res_id=test_record.id).action_create_calendar_event()
-        event_1 = self.env['calendar.event'].with_context(calendar_action['context']).create({
+        # default usage in successive create
+        event_1_1 = self.env['calendar.event'].with_context(default_activity_ids=[(6, 0, activity_1.ids)]).create({
             'name': 'Meeting 1',
             'start': datetime(2025, 3, 10, 17),
             'stop': datetime(2025, 3, 10, 22),
         })
-
-        self.assertEqual(event_1.activity_ids, activity_id)
-
-        total_activities = self.env['mail.activity'].search_count(domain=[])
-
-        event_2 = self.env['calendar.event'].with_context(calendar_action['context']).create({
+        self.assertEqual(event_1_1.activity_ids, activity_1)
+        self.assertEqual(activity_1.calendar_event_id, event_1_1)
+        self.assertEqual(activity_1.date_deadline, date(2025, 3, 10))
+        event_1_2 = self.env['calendar.event'].with_context(default_activity_ids=[(6, 0, activity_1.ids)]).create({
             'name': 'Meeting 2',
-            'start': datetime(2025, 3, 11, 17),
-            'stop': datetime(2025, 3, 11, 22),
+            'start': datetime(2025, 3, 12, 17),
+            'stop': datetime(2025, 3, 12, 22),
         })
-        self.assertEqual(event_1.activity_ids, activity_id, "Event 1's activity should still be the first activity")
-        self.assertEqual(activity_id.calendar_event_id, event_1, "The first activity's event should still be event 1")
-        self.assertEqual(total_activities + 1, self.env['mail.activity'].search_count(domain=[]), "1 more activity record should have been created (by event 2)")
-        self.assertNotEqual(event_2.activity_ids, activity_id, "Event 2's activity should not be the first activity")
-        self.assertEqual(event_2.activity_ids.activity_type_id, activity_id.activity_type_id, "Event 2's activity should be the same activity type as the first activity")
-        self.assertEqual(test_record.activity_ids, activity_id | event_2.activity_ids, "Resource record should now have both activities")
+        self.assertFalse(event_1_1.activity_ids, 'Changes activity ownership')
+        self.assertEqual(event_1_2.activity_ids, activity_1, 'Changes activity ownership')
+        self.assertEqual(activity_1.calendar_event_id, event_1_2)
+        self.assertEqual(activity_1.date_deadline, date(2025, 3, 12))
+
+        activity_2 = self.env['mail.activity'].create({
+            'summary': 'Meeting 2 with partner',
+            'activity_type_id': meeting_act_type.id,
+            'res_model_id': self.env['ir.model']._get_id('res.partner'),
+            'res_id': test_record.id,
+        })
+        existing_activities = self.env['mail.activity'].search([])
+
+        # specific action that creates activities instead of replacing
+        calendar_action = activity_2.with_context(default_res_model='res.partner', default_res_id=test_record.id).action_create_calendar_event()
+        event_2_1 = self.env['calendar.event'].with_context(calendar_action['context']).create({
+            'name': 'Meeting 1',
+            'start': datetime(2025, 4, 10, 17),
+            'stop': datetime(2025, 4, 10, 22),
+        })
+        self.assertEqual(event_2_1.activity_ids, activity_2)
+        self.assertEqual(activity_2.calendar_event_id, event_2_1)
+        self.assertEqual(activity_2.date_deadline, date(2025, 4, 10))
+
+        event_2_2 = self.env['calendar.event'].with_context(calendar_action['context']).create({
+            'name': 'Meeting 2',
+            'start': datetime(2025, 4, 11, 17),
+            'stop': datetime(2025, 4, 11, 22),
+        })
+        new_existing_activities = self.env['mail.activity'].search([])
+        new_activity = new_existing_activities - existing_activities
+        self.assertEqual(event_2_1.activity_ids, activity_2, "Event 1's activity should still be the first activity")
+        self.assertEqual(activity_2.calendar_event_id, event_2_1, "The first activity's event should still be event 1")
+
+        self.assertEqual(len(new_activity), 1, "1 more activity record should have been created (by event 2)")
+        self.assertEqual(event_2_2.activity_ids, new_activity, "Event 2's activity should not be the first activity")
+        self.assertEqual(event_2_2.activity_ids.activity_type_id, activity_2.activity_type_id, "Event 2's activity should be the same activity type as the first activity")
+        self.assertEqual(test_record.activity_ids, activity_1 + activity_2 + new_activity, "Resource record should now have all activities")
 
     def test_event_allday(self):
         self.env.user.tz = 'Pacific/Honolulu'
@@ -235,8 +289,9 @@ class TestCalendar(SavepointCaseWithUserDemo):
             self.assertEqual(d.minute, 30)
 
     def test_recurring_ny(self):
-        self.env.user.tz = 'America/New_York'
-        f = Form(self.CalendarEvent.with_context(tz='America/New_York'))
+        self.user_demo.tz = 'America/New_York'
+        event = self.CalendarEvent.create({'user_id': self.user_demo.id, 'name': 'test', 'partner_ids': [Command.link(self.user_demo.partner_id.id)]})
+        f = Form(event.with_context(tz='America/New_York').with_user(self.user_demo))
         f.name = 'test'
         f.start = '2022-07-07 01:00:00'  # This is in UTC. In NY, it corresponds to the 6th of july at 9pm.
         f.recurrency = True
@@ -316,57 +371,64 @@ class TestCalendar(SavepointCaseWithUserDemo):
 
         self.assertEqual(str(activity_id.date_deadline), '2018-10-16')
 
+    @freezegun.freeze_time('2023-10-06 10:00:00')
     def test_event_creation_mail(self):
         """
+        Freezegun used because we don't send mail for past events
         Check that mail are sent to the attendees on event creation
         Check that mail are sent to the added attendees on event edit
         Check that mail are NOT sent to the attendees when the event date is past
         Check that mail have extra attachement added by the user
         """
 
-        def _test_one_mail_per_attendee(self, partners):
+        def _test_mail_per_attendee(self, partners, target=1):
             # check that every attendee receive a (single) mail for the event
             for partner in partners:
                 mail = self.env['mail.message'].sudo().search([
                     ('notified_partner_ids', 'in', partner.id),
                     ])
-                self.assertEqual(len(mail), 1)
+                self.assertEqual(len(mail), target, "This attendee has an unexpected amount of mails")
 
-        def _test_emails_has_attachment(self, partners):
-            # check that every email has an attachment
+        def _test_emails_has_attachment(self, partners, attachments_names=["fileText_attachment.txt"], checksums=None):
+            # check that every email has specified extra attachments
             for partner in partners:
                 mail = self.env['mail.message'].sudo().search([
                     ('notified_partner_ids', 'in', partner.id),
                 ])
-                extra_attachment = mail.attachment_ids.filtered(lambda attachment: attachment.name == "fileText_attachment.txt")
-                self.assertEqual(len(extra_attachment), 1)
+                extra_attachments = mail.attachment_ids.filtered(lambda attachment: attachment.name in attachments_names)
+                self.assertEqual(len(extra_attachments), len(attachments_names))
+                if checksums:
+                    self.assertEqual(extra_attachments.mapped('checksum'), checksums)
 
-        attachment = self.env['ir.attachment'].create({
+        attachments = self.env['ir.attachment'].create([{
             'datas': base64.b64encode(bytes("Event Attachment", 'utf-8')),
             'name': 'fileText_attachment.txt',
             'mimetype': 'text/plain'
-        })
-        self.env.ref('calendar.calendar_template_meeting_invitation').attachment_ids = attachment
+        }, {
+            'datas': base64.b64encode(bytes("Event Attachment 2", 'utf-8')),
+            'name': 'fileText_attachment_2.txt',
+            'mimetype': 'text/plain'
+        }])
+        self.env.ref('calendar.calendar_template_meeting_invitation').attachment_ids = attachments
 
         partners = [
             self.env['res.partner'].create({'name': 'testuser0', 'email': u'bob@example.com'}),
             self.env['res.partner'].create({'name': 'testuser1', 'email': u'alice@example.com'}),
         ]
         partner_ids = [(6, False, [p.id for p in partners]),]
-        now = fields.Datetime.context_timestamp(partners[0], fields.Datetime.now())
         m = self.CalendarEvent.create({
             'name': "mailTest1",
             'allday': False,
             'rrule': u'FREQ=DAILY;INTERVAL=1;COUNT=5',
             'recurrency': True,
             'partner_ids': partner_ids,
-            'start': fields.Datetime.to_string(now + timedelta(days=10)),
-            'stop': fields.Datetime.to_string(now + timedelta(days=15)),
+            'start': "2023-10-29 08:00:00",
+            'stop': "2023-11-03 08:00:00",
             })
 
         # every partner should have 1 mail sent
-        _test_one_mail_per_attendee(self, partners)
-        _test_emails_has_attachment(self, partners)
+        _test_mail_per_attendee(self, partners, target=1)
+        _test_emails_has_attachment(self, partners, checksums=[attachments[0].checksum])
 
         # adding more partners to the event
         partners.extend([
@@ -381,21 +443,55 @@ class TestCalendar(SavepointCaseWithUserDemo):
         })
 
         # more email should be sent
-        _test_one_mail_per_attendee(self, partners)
+        _test_mail_per_attendee(self, partners, target=1)
 
         # create a new event in the past
-        self.CalendarEvent.create({
+        past_event = self.CalendarEvent.create({
             'name': "NOmailTest",
             'allday': False,
             'recurrency': False,
             'partner_ids': partner_ids,
-            'start': fields.Datetime.to_string(now - timedelta(days=10)),
-            'stop': fields.Datetime.to_string(now - timedelta(days=9)),
+            'start': "2023-10-04 08:00:00",
+            'stop': "2023-10-10 08:00:00",
         })
 
         # no more email should be sent
-        _test_one_mail_per_attendee(self, partners)
+        _test_mail_per_attendee(self, partners, target=1)
 
+        # adding more partners to the event in past, SHOULD NOT trigger notification
+        partners_added_after_past_date = [
+            self.env['res.partner'].create({'name': 'testuser5', 'email': 'jean@example.com'}),
+            self.env['res.partner'].create({'name': 'testuser6', 'email': 'claude@example.com'}),
+            self.env['res.partner'].create({'name': 'testuser7', 'email': 'vandamme@example.com'}),
+            ]
+        partners.extend(partners_added_after_past_date)
+        partner_ids = [(6, False, [p.id for p in partners])]
+        past_event.write({
+            'partner_ids': partner_ids,
+        })
+
+        _test_mail_per_attendee(
+            self, list(set(partners) - set(partners_added_after_past_date)), target=1)
+        _test_mail_per_attendee(self, partners_added_after_past_date, target=0)
+
+        partner_staff, new_partner = self.env['res.partner'].create([{
+            'name': 'partner_staff',
+            'email': 'partner_staff@example.com',
+        }, {
+            'name': 'partner_created_on_the_spot_by_the_appointment_form',
+            'email': 'partner_created_on_the_spot_by_the_appointment_form@example.com',
+        }])
+        self.CalendarEvent.with_user(self.env.ref('base.public_user')).sudo().create({
+            'name': "publicUserEvent",
+            'partner_ids': [(6, False, [partner_staff.id, new_partner.id])],
+            'start': "2023-10-06 12:00:00",
+            'stop': "2023-10-06 13:00:00",
+        })
+        _test_emails_has_attachment(
+            self, partners=[partner_staff, new_partner], attachments_names=[a.name for a in attachments], checksums=attachments.mapped('checksum')
+        )
+
+    @freezegun.freeze_time('2011-04-29 10:00:00')
     def test_event_creation_internal_user_invitation_ics(self):
         """ Check that internal user can read invitation.ics attachment """
         internal_user = new_test_user(self.env, login='internal_user', groups='base.group_user')
@@ -473,6 +569,38 @@ class TestCalendar(SavepointCaseWithUserDemo):
         })
         self.assertTrue(set(new_partners) == set(self.event_tech_presentation.videocall_channel_id.channel_partner_ids.ids), 'new partners must be invited to the channel')
 
+    def test_event_duplication_allday(self):
+        """Test that a calendar event is successfully duplicated with dates."""
+        # Create an event
+        calendar_event = self.env['calendar.event'].create({
+            'name': 'All Day',
+            'start': "2018-10-16 00:00:00",
+            'start_date': "2018-10-16",
+            'stop': "2018-10-18 00:00:00",
+            'stop_date': "2018-10-18",
+            'allday': True,
+        })
+        # Duplicate the event with explicit defaults for start_date and stop_date
+        new_calendar_event = calendar_event.copy()
+        # Ensure the copied event exists and retains the correct dates
+        self.assertTrue(new_calendar_event, "Event should be duplicated.")
+        self.assertEqual(new_calendar_event.start_date, calendar_event.start_date, "Start date should match the original.")
+        self.assertEqual(new_calendar_event.stop_date, calendar_event.stop_date, "Stop date should match the original.")
+
+    def test_unauthorized_user_cannot_add_attendee(self):
+        """ Check that a user that doesn't have access to a private event cannot add attendees to it """
+        attendee_model = self.env['calendar.attendee'].with_user(self.user_demo.id)
+        # event_id in values
+        with self.assertRaises(AccessError):
+            attendee_model.create([{
+                'event_id': self.event_tech_presentation.id,
+                'partner_id': self.partner_demo.id,
+            }])
+        # event_id via context (default_event_id)
+        with self.assertRaises(AccessError):
+            attendee_model.with_context(default_event_id=self.event_tech_presentation.id).create([{
+                'partner_id': self.partner_demo.id,
+            }])
 
 @tagged('post_install', '-at_install')
 class TestCalendarTours(HttpCaseWithUserDemo):
@@ -552,3 +680,26 @@ class TestCalendarTours(HttpCaseWithUserDemo):
         self.start_tour(url, 'test_calendar_decline_with_everybody_filter_tour', login='demo')
         attendee = self.env['calendar.attendee'].search([('event_id', '=', event.id), ('partner_id', '=', user_demo.partner_id.id)])
         self.assertEqual(attendee.state, 'declined') # Check if the event has been correctly declined
+
+    def test_calendar_res_id_fallback_when_res_id_is_0(self):
+        user_admin = self.env.ref('base.user_admin')
+        context_defaults = {
+            'default_res_model': user_admin._name,
+            'default_res_id': user_admin.id,
+        }
+
+        self.env['mail.activity.type'].create({
+            'name': 'Meeting',
+            'category': 'meeting'
+        })
+
+        event = self.env['calendar.event'].with_user(user_admin).with_context(**context_defaults).create({
+            'name': 'All Day',
+            'start': "2018-10-16 00:00:00",
+            'start_date': "2018-10-16",
+            'stop': "2018-10-18 00:00:00",
+            'stop_date': "2018-10-18",
+            'allday': True,
+            'res_id': 0,
+        })
+        self.assertTrue(event.res_id)
