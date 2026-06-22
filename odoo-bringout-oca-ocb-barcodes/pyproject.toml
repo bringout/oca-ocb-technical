@@ -1,9 +1,7 @@
 [project]
 name = "odoo-bringout-oca-ocb-barcodes"
-version = "16.0.0"
-description = "Barcode - 
-        Scan and Parse Barcodes
-        "
+version = "18.0.2.0"
+description = "Barcode - Scan and Parse Barcodes"
 authors = [
     { name = "Ernad Husremovic", email = "hernad@bring.out.ba" }
 ]
